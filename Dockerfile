@@ -1,5 +1,5 @@
 # 构建阶段
-FROM maven:3.8-openjdk-8 AS builder
+FROM maven:3.9-eclipse-temurin-21 AS builder
 
 # 添加元数据
 LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
@@ -28,7 +28,7 @@ LABEL url="https://github.com/jihuayu/kkFileView"
 
 RUN apt-get update &&\
     export DEBIAN_FRONTEND=noninteractive &&\
-	apt-get install -y --no-install-recommends openjdk-8-jre tzdata locales xfonts-utils fontconfig libreoffice-nogui &&\
+	apt-get install -y --no-install-recommends openjdk-21-jre tzdata locales xfonts-utils fontconfig libreoffice-nogui &&\
     echo 'Asia/Shanghai' > /etc/timezone &&\
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
     localedef -i zh_CN -c -f UTF-8 -A /usr/share/locale/locale.alias zh_CN.UTF-8 &&\
