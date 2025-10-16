@@ -15,7 +15,7 @@ COPY pom.xml .
 COPY server/ server/
 
 # 构建项目
-RUN mvn clean package -DskipTests
+RUN mvn clean -B package -Dmaven.test.skip=true --file pom.xml
 
 # 运行阶段
 FROM ubuntu:24.04
