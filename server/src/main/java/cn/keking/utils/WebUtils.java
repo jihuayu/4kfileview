@@ -1,16 +1,16 @@
 package cn.keking.utils;
 
 import io.mola.galimatias.GalimatiasParseException;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -87,7 +87,7 @@ public class WebUtils {
             try {
                 urlStr = URLEncoder.encode(urlStr, "UTF-8").replaceAll("\\+", "%20").replaceAll("%3A", ":").replaceAll("%2F", "/").replaceAll("%3F", "?").replaceAll("%26", "&").replaceAll("%3D", "=");
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                LOGGER.error("Failed to encode URL: {}", urlStr, e);
             }
         }
         return urlStr;
@@ -155,7 +155,7 @@ public class WebUtils {
                 URL urlObj = new URL(url);
                 url = urlObj.getPath().substring(1);
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                LOGGER.error("Failed to parse file URL: {}", url, e);
             }
         }
         // 因为url的参数中可能会存在/的情况，所以直接url.lastIndexOf("/")会有问题
@@ -290,7 +290,7 @@ public class WebUtils {
          * https://github.com/kekingcn/kkFileView/pull/340
          */
         try {
-            return new String(Base64Utils.decodeFromString(source.replaceAll(" ", "+").replaceAll("\n", "")), charsets);
+            return new String(Base64.decodeBase64(source.replaceAll(" ", "+").replaceAll("\n", "")), charsets);
         } catch (Exception e) {
             if (e.getMessage().toLowerCase().contains(BASE64_MSG)) {
                 LOGGER.error("url解码异常，接入方法错误未使用BASE64");

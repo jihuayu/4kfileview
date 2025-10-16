@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.*;
+import jakarta.servlet.*;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -35,7 +35,7 @@ public class TrustDirFilter implements Filter {
             byte[] bytes = FileCopyUtils.copyToByteArray(classPathResource.getInputStream());
             this.notTrustDirView = new String(bytes, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("加载notTrustDir.html失败", e);
         }
     }
 
