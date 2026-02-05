@@ -31,8 +31,9 @@ jobs:
       
       - name: Prepare environment
         run: |
-          # 转换镜像名为小写
           echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          repository=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | cut -d '/' -f 2)
+          echo "REPO=${repository}" >> "$GITHUB_ENV"
       
       - name: Set platform tag
         id: platform
@@ -58,7 +59,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+  
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -71,7 +72,7 @@ jobs:
             type=ref,event=tag,suffix=-${{ steps.platform.outputs.tag }}
             type=sha,suffix=-${{ steps.platform.outputs.tag }}
             
-      - name: Build and push by digest
+      - name: Build and push to GHCR by digest
         id: build
         uses: docker/build-push-action@v6
         with:
@@ -81,91 +82,150 @@ jobs:
           cache-from: type=gha,scope=build-${{ steps.platform.outputs.tag }}
           cache-to: type=gha,scope=build-${{ steps.platform.outputs.tag }},mode=max
           
-      - name: Export digest
+      - name: Export digest for GHCR
         run: |
-          mkdir -p /tmp/digests
+          mkdir -p /tmp/digests-ghcr
           digest="${{ steps.build.outputs.digest }}"
-          touch "/tmp/digests/${digest#sha256:}"
+          touch "/tmp/digests-ghcr/${digest#sha256:}"
           
-      - name: Upload digest
+      - name: Upload GHCR digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ steps.platform.outputs.tag }}
-          path: /tmp/digests/*
+          name: digests-ghcr-${{ steps.platform.outputs.tag }}
+          path: /tmp/digests-ghcr/*
           if-no-files-found: error
           retention-days: 1
-
-  merge:
-    runs-on: ubuntu-latest
-    needs: build
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Prepare environment
+      
+      # 单独推送到 Docker Hub
+      - name: Build and push to Docker Hub by digest
+        id: build-dockerhub
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          outputs: type=image,name=${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=build-${{ steps.platform.outputs.tag }}
+          
+      - name: Export digest for Docker Hub
         run: |
-          # 转换镜像名为小写
-          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          # 提取仓库名（小写）
-          repository=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | cut -d '/' -f 2)
-          echo "REPO=${repository}" >> "$GITHUB_ENV"
+          mkdir -p /tmp/digests-dockerhub
+          digest="${{ steps.build-dockerhub.outputs.digest }}"
+          touch "/tmp/digests-dockerhub/${digest#sha256:}"
           
-      - name: Download digests
-        uses: actions/download-artifact@v4
+      - name: Upload Docker Hub digest
+        uses: actions/upload-artifact@v4
         with:
-          path: /tmp/digests
-          pattern: digests-*
-          merge-multiple: true
+          name: digests-dockerhub-${{ steps.platform.outputs.tag }}
+          path: /tmp/digests-dockerhub/*
+          if-no-files-found: error
+          retention-days: 1
+  
+    merge:
+      runs-on: ubuntu-latest
+      needs: build
+      permissions:
+        contents: read
+        packages: write
+        id-token: write
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
           
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ env.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: Log into registry ${{ env.REGISTRY }}
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO }}
+        - name: Prepare environment
+          run: |
+            echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+            repository=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | cut -d '/' -f 2)
+            echo "REPO=${repository}" >> "$GITHUB_ENV"
             
-      - name: Create manifest list and push
-        working-directory: /tmp/digests
-        run: |
-          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+        - name: Download GHCR digests
+          uses: actions/download-artifact@v4
+          with:
+            path: /tmp/digests-ghcr
+            pattern: digests-ghcr-*
+            merge-multiple: true
+            
+        - name: Download Docker Hub digests
+          uses: actions/download-artifact@v4
+          with:
+            path: /tmp/digests-dockerhub
+            pattern: digests-dockerhub-*
+            merge-multiple: true
+            
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
           
-      - name: Inspect image
-        run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
-          
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3.5.0
-        with:
-          cosign-release: 'v2.2.4'
-
-      - name: Sign the published Docker image
-        env:
-          TAGS: ${{ steps.meta.outputs.tags }}
-        run: |
-          echo "${TAGS}" | while read -r tag; do
-            echo "Signing ${tag}..."
-            digest=$(docker buildx imagetools inspect "${tag}" --format '{{json .Manifest}}' | jq -r '.digest')
-            cosign sign --yes "${tag}@${digest}"
-          done
+        - name: Login to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ env.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            
+        - name: Log into registry ${{ env.REGISTRY }}
+          uses: docker/login-action@v3
+          with:
+            registry: ${{ env.REGISTRY }}
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+  
+        - name: Extract Docker metadata for GHCR
+          id: meta-ghcr
+          uses: docker/metadata-action@v5
+          with:
+            images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            
+        - name: Extract Docker metadata for Docker Hub
+          id: meta-dockerhub
+          uses: docker/metadata-action@v5
+          with:
+            images: ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO }}
+              
+        - name: Create manifest for GHCR and push
+          working-directory: /tmp/digests-ghcr
+          run: |
+            docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+              $(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+          env:
+            DOCKER_METADATA_OUTPUT_JSON: ${{ steps.meta-ghcr.outputs.json }}
+            
+        - name: Create manifest for Docker Hub and push
+          working-directory: /tmp/digests-dockerhub
+          run: |
+            docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+              $(printf '${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO }}@sha256:%s ' *)
+          env:
+            DOCKER_METADATA_OUTPUT_JSON: ${{ steps.meta-dockerhub.outputs.json }}
+            
+        - name: Inspect GHCR image
+          run: |
+            docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta-ghcr.outputs.version }}
+            
+        - name: Inspect Docker Hub image
+          run: |
+            docker buildx imagetools inspect ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO }}:${{ steps.meta-dockerhub.outputs.version }}
+            
+        - name: Install cosign
+          uses: sigstore/cosign-installer@v3.5.0
+          with:
+            cosign-release: 'v2.2.4'
+  
+        - name: Sign GHCR images
+          env:
+            TAGS: ${{ steps.meta-ghcr.outputs.tags }}
+          run: |
+            echo "${TAGS}" | while read -r tag; do
+              [ -z "$tag" ] && continue
+              echo "Signing ${tag}..."
+              digest=$(docker buildx imagetools inspect "${tag}" --format '{{json .Manifest}}' | jq -r '.digest')
+              cosign sign --yes "${tag}@${digest}"
+            done
+            
+        - name: Sign Docker Hub images
+          env:
+            TAGS: ${{ steps.meta-dockerhub.outputs.tags }}
+          run: |
+            echo "${TAGS}" | while read -r tag; do
+              [ -z "$tag" ] && continue
+              echo "Signing ${tag}..."
+              digest=$(docker buildx imagetools inspect "${tag}" --format '{{json .Manifest}}' | jq -r '.digest')
+              cosign sign --yes "${tag}@${digest}"
+            done
