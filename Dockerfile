@@ -19,7 +19,6 @@ LABEL org.opencontainers.image.description="专注文件在线预览服务 | Fil
 LABEL org.opencontainers.image.source="https://github.com/jihuayu/kkFileView"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
 LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
-
 RUN apt-get update && \
     export DEBIAN_FRONTEND=noninteractive && \
     # 预先接受微软字体 EULA
@@ -30,10 +29,10 @@ RUN apt-get update && \
         locales \
         xfonts-utils \
         fontconfig \
-        libreoffice-core-nogui \
-        libreoffice-writer-nogui \
-        libreoffice-calc-nogui \
-        libreoffice-impress-nogui \
+        libreoffice-core \
+        libreoffice-writer \
+        libreoffice-calc \
+        libreoffice-impress \
         libreoffice-common && \
     echo 'Asia/Shanghai' > /etc/timezone && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
