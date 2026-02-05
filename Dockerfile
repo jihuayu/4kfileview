@@ -1,12 +1,6 @@
 # 构建阶段
 FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-21 AS builder
 
-# 添加元数据
-LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
-LABEL description="专注文件在线预览服务(fork by kekingcn/kkFileView)"
-LABEL license="Apache-2.0"
-LABEL url="https://github.com/jihuayu/kkFileView"
-
 # 设置工作目录
 WORKDIR /app
 
@@ -21,10 +15,10 @@ RUN mvn -B package -Dmaven.test.skip=true --file pom.xml
 FROM --platform=$TARGETPLATFORM ubuntu:24.04
 
 # 添加元数据
+LABEL org.opencontainers.image.description="专注文件在线预览服务 | File preview service based on kkFileView"
+LABEL org.opencontainers.image.source="https://github.com/jihuayu/kkFileView"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
 LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
-LABEL description="专注文件在线预览服务(fork by kekingcn/kkFileView)"
-LABEL license="Apache-2.0"
-LABEL url="https://github.com/jihuayu/kkFileView"
 
 RUN apt-get update &&\
     export DEBIAN_FRONTEND=noninteractive &&\
