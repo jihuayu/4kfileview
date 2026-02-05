@@ -1,5 +1,5 @@
 # 构建阶段
-FROM maven:3.9-eclipse-temurin-21 AS builder
+FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-21 AS builder
 
 # 添加元数据
 LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
@@ -18,7 +18,7 @@ COPY server/ server/
 RUN mvn -B package -Dmaven.test.skip=true --file pom.xml
 
 # 运行阶段
-FROM ubuntu:24.04
+FROM --platform=$TARGETPLATFORM ubuntu:24.04
 
 # 添加元数据
 LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
