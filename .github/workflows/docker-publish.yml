@@ -7,7 +7,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
   DOCKERHUB_USERNAME: jihuayu123
 
 jobs:
@@ -29,7 +28,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+      
+      - name: Prepare environment
+        run: |
+          # 转换镜像名为小写
+          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      
       - name: Set platform tag
         id: platform
         run: |
@@ -102,9 +106,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: Set the value
+      - name: Prepare environment
         run: |
-          repository=$(echo "${{ github.repository }}" | cut -d '/' -f 2)
+          # 转换镜像名为小写
+          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          # 提取仓库名（小写）
+          repository=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | cut -d '/' -f 2)
           echo "REPO=${repository}" >> "$GITHUB_ENV"
           
       - name: Download digests
@@ -143,7 +150,7 @@ jobs:
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
-            
+          
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
@@ -156,5 +163,9 @@ jobs:
       - name: Sign the published Docker image
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+        run: |
+          echo "${TAGS}" | while read -r tag; do
+            echo "Signing ${tag}..."
+            digest=$(docker buildx imagetools inspect "${tag}" --format '{{json .Manifest}}' | jq -r '.digest')
+            cosign sign --yes "${tag}@${digest}"
+          done
