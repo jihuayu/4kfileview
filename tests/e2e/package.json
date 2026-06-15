@@ -17,6 +17,6 @@
     "test:ci": "npm run gen:all && playwright test specs/preview-smoke.spec.ts specs/perf-smoke.spec.ts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0"
+    "@playwright/test": "^1.61.0"
   }
 }
