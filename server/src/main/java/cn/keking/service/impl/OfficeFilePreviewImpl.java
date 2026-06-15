@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -87,13 +88,26 @@ public class OfficeFilePreviewImpl implements FilePreview {
 
         // 图片预览模式（异步转换）
         if (!isHtmlView && baseUrl != null && (OFFICE_PREVIEW_TYPE_IMAGE.equals(officePreviewType) || OFFICE_PREVIEW_TYPE_ALL_IMAGES.equals(officePreviewType))) {
-            boolean jiami = false;
-            if (!ObjectUtils.isEmpty(filePassword)) {
-                jiami = pdftojpgservice.hasEncryptedPdfCacheSimple(outFilePath);
+            boolean cacheEnabled = ConfigConstants.isCacheEnabled();
+            boolean hasConvertedPdfCache = fileHandlerService.listConvertedFiles().containsKey(cacheName);
+            boolean hasImagePreviewCache = hasImagePreviewCache(outFilePath);
+            if (!forceUpdatedCache && cacheEnabled && hasImagePreviewCache) {
+                return getPreviewType(model, fileAttribute, officePreviewType, cacheName, outFilePath);
             }
-            if (forceUpdatedCache || !fileHandlerService.listConvertedFiles().containsKey(cacheName) || !ConfigConstants.isCacheEnabled()) {
-                if (jiami) {
-                    return getPreviewType(model, fileAttribute, officePreviewType, cacheName, outFilePath);
+
+            if (forceUpdatedCache || !hasConvertedPdfCache || !cacheEnabled || !hasImagePreviewCache) {
+                if (!forceUpdatedCache && cacheEnabled && hasConvertedPdfCache && new File(outFilePath).isFile()) {
+                    try {
+                        startAsyncPdfImageConversion(outFilePath, cacheName, fileAttribute);
+                        int refreshSchedule = ConfigConstants.getTime();
+                        model.addAttribute("fileName", fileName);
+                        model.addAttribute("time", refreshSchedule);
+                        model.addAttribute("message", "PDF图片缓存缺失，正在重新生成...");
+                        return WAITING_FILE_PREVIEW_PAGE;
+                    } catch (Exception e) {
+                        logger.error("Failed to start PDF image conversion: {}", outFilePath, e);
+                        return otherFilePreview.notSupportedFile(model, fileAttribute, "文件转换异常，请联系管理员");
+                    }
                 }
                 // 下载文件
                 ReturnResponse<String> response = DownloadUtils.downLoad(fileAttribute, fileName);
@@ -134,6 +148,14 @@ public class OfficeFilePreviewImpl implements FilePreview {
         // 处理普通Office转PDF预览
         return handleRegularOfficePreview(model, fileAttribute, fileName, forceUpdatedCache, cacheName, outFilePath,
                 isHtmlView, userToken, filePassword);
+    }
+
+    private boolean hasImagePreviewCache(String outFilePath) {
+        if (pdftojpgservice.hasEncryptedPdfCacheSimple(outFilePath)) {
+            return true;
+        }
+        List<String> imageUrls = fileHandlerService.loadPdf2jpgCache(outFilePath);
+        return imageUrls != null && !imageUrls.isEmpty();
     }
 
     /**
@@ -216,6 +238,30 @@ public class OfficeFilePreviewImpl implements FilePreview {
                 logger.error("Office转换后续处理失败: {}", filePath, e);
             }
         }, callbackExecutor);
+    }
+
+    /**
+     * 已有Office转PDF缓存但缺少图片缓存时，只补做PDF转图片。
+     */
+    private void startAsyncPdfImageConversion(String outFilePath, String cacheName, FileAttribute fileAttribute) {
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                FileConvertStatusManager.startConvert(cacheName);
+                FileConvertStatusManager.updateProgress(cacheName, "正在转换PDF为图片", 90);
+                List<String> imageUrls = pdftojpgservice.pdf2jpg(outFilePath, outFilePath, fileAttribute);
+                if (imageUrls == null || imageUrls.isEmpty()) {
+                    FileConvertStatusManager.markError(cacheName, "PDF转图片失败：未生成图片");
+                    return null;
+                }
+                FileConvertStatusManager.updateProgress(cacheName, "转换完成", 100);
+                FileConvertStatusManager.convertSuccess(cacheName);
+                return imageUrls;
+            } catch (Exception e) {
+                logger.error("PDF转图片执行失败: {}", cacheName, e);
+                FileConvertStatusManager.markError(cacheName, "PDF转图片失败: " + e.getMessage());
+                return null;
+            }
+        });
     }
 
     /**
