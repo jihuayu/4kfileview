@@ -31,22 +31,42 @@ jobs:
       KK_DEPLOY_MAVEN_SETTINGS: ${{ vars.KK_DEPLOY_MAVEN_SETTINGS }}
 
     steps:
+      - name: Check deploy configuration
+        id: deploy-config
+        run: |
+          missing=()
+          test -n "$KK_DEPLOY_HOST" || missing+=("KK_DEPLOY_HOST")
+          test -n "$KK_DEPLOY_USERNAME" || missing+=("KK_DEPLOY_USERNAME")
+          test -n "$KK_DEPLOY_PASSWORD" || missing+=("KK_DEPLOY_PASSWORD")
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Windows deploy skipped"
+              echo
+              echo "Missing required deployment configuration: ${missing[*]}"
+              echo
+              echo "Set these repository secrets to enable production deployment."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+
       - name: Checkout repository
+        if: steps.deploy-config.outputs.should_deploy == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Python
+        if: steps.deploy-config.outputs.should_deploy == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install WinRM dependencies
+        if: steps.deploy-config.outputs.should_deploy == 'true'
         run: pip install pywinrm
 
-      - name: Validate deploy secrets
-        run: |
-          test -n "$KK_DEPLOY_HOST" || (echo "Missing secret: KK_DEPLOY_HOST" && exit 1)
-          test -n "$KK_DEPLOY_USERNAME" || (echo "Missing secret: KK_DEPLOY_USERNAME" && exit 1)
-          test -n "$KK_DEPLOY_PASSWORD" || (echo "Missing secret: KK_DEPLOY_PASSWORD" && exit 1)
-
       - name: Deploy to Windows server
+        if: steps.deploy-config.outputs.should_deploy == 'true'
         run: python .github/scripts/deploy_windows_winrm.py
