@@ -5728,7 +5728,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   enableScripting: {
-    value: true,
+    value: false,
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   enableSignatureEditor: {
@@ -6492,7 +6492,7 @@ class BasePreferences {
     enableOptimizedPartialRendering: false,
     enablePermissions: false,
     enablePrintAutoRotate: true,
-    enableScripting: true,
+    enableScripting: false,
     enableSignatureEditor: false,
     enableUpdatedAddImage: false,
     externalLinkTarget: 0,
@@ -22047,6 +22047,9 @@ const PDFViewerApplication = {
     }
   },
   async run(config) {
+    const queryString = document.location.search.substring(1);
+    const params = parseQueryString(queryString);
+    AppOptions.set("enableScripting", params.get("enablescripting") === "true");
     await this.initialize(config);
     const {
       appConfig,
@@ -22059,8 +22062,6 @@ const PDFViewerApplication = {
     let disableDownload;
     let disableBookmark;
     let disableEditing;
-    const queryString = document.location.search.substring(1);
-    const params = parseQueryString(queryString);
     file = params.get("file") ?? AppOptions.get("defaultUrl");
 	disablePresentationMode = params.get('disablepresentationmode') ?? 'false';
     disableOpenFile = params.get("disableopenfile") ?? 'false';

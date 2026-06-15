@@ -36,6 +36,18 @@ public class PdfViewerCompatibilityTests {
     }
 
     @Test
+    void shouldDisablePdfScriptingUnlessExplicitlyEnabled() throws IOException {
+        String properties = readResource("/application.properties");
+        String pdfTemplate = readResource("/web/pdf.ftl");
+        String viewerScript = readResource("/static/pdfjs/web/viewer.mjs");
+
+        assertTrue(properties.contains("pdf.enable.scripting = ${KK_PDF_ENABLE_SCRIPTING:false}"));
+        assertTrue(pdfTemplate.contains("viewerUrl += \"&enablescripting=${pdfEnableScripting}\";"));
+        assertTrue(viewerScript.contains("enableScripting: {\n    value: false,"));
+        assertTrue(viewerScript.contains("AppOptions.set(\"enableScripting\", params.get(\"enablescripting\") === \"true\");"));
+    }
+
+    @Test
     void shouldPreferPdfForOfficePreviewByDefault() throws IOException {
         String properties = readResource("/application.properties");
 

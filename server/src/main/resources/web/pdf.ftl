@@ -61,6 +61,7 @@
     viewerUrl += "&disabledownload=${pdfDownloadDisable}";
     viewerUrl += "&disablebookmark=${pdfBookmarkDisable}";
     viewerUrl += "&disableediting=${pdfDisableEditing}";
+    viewerUrl += "&enablescripting=${pdfEnableScripting}";
     viewerUrl += "&watermarktxt=" + watermarkEncoded;
     viewerUrl += "&pdfhighlightall=" + highlightEncoded;
     viewerUrl += "#page=${page}";   // ?c 确保数字不包含千位分隔符
