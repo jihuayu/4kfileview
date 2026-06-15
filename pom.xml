@@ -6,7 +6,7 @@
 
     <groupId>cn.keking</groupId>
     <artifactId>kkFileView-parent</artifactId>
-    <version>5.0.0</version>
+    <version>26.2.0</version>
 
     <properties>
         <!-- ========== Java 和编译配置 ========== -->
@@ -85,7 +85,7 @@
     <!-- ========== 项目信息 ========== -->
     <name>kkFileView-parent</name>
     <description>专注文件在线预览服务</description>
-    <url>https://github.com/kekingcn/kkFileView</url>
+    <url>https://github.com/jihuayu/kkFileView</url>
 
     <licenses>
         <license>
@@ -95,9 +95,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/kekingcn/kkFileView</url>
-        <connection>scm:git:git://github.com/kekingcn/kkFileView.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/kekingcn/kkFileView.git</developerConnection>
+        <url>https://github.com/jihuayu/kkFileView</url>
+        <connection>scm:git:https://github.com/jihuayu/kkFileView.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jihuayu/kkFileView.git</developerConnection>
     </scm>
 
     <developers>
@@ -116,6 +116,6 @@
 
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/kekingcn/kkFileView/issues</url>
+        <url>https://github.com/jihuayu/kkFileView/issues</url>
     </issueManagement>
 </project>

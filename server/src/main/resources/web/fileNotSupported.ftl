@@ -38,7 +38,7 @@
         该(${fileType})文件，系统暂不支持在线预览，具体原因如下：
         <p style="color: red;">${msg}</p>
     </span>
-    <p>有任何疑问，请加入kk开源社区知识星球咨询：<a href="https://t.zsxq.com/09ZHSXbsQ">https://t.zsxq.com/09ZHSXbsQ</a><br></p>
+    <p>有任何疑问，请联系系统管理员，或在项目仓库提交 issue：<a href="https://github.com/jihuayu/kkFileView/issues">https://github.com/jihuayu/kkFileView/issues</a><br></p>
 </div>
 </body>
 </html>

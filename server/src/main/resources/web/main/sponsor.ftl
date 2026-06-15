@@ -19,7 +19,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="https://kkview.cn" target="_blank">kkFileView</a>
+            <a class="navbar-brand" href="./index">kkFileView</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="./index">首页</a></li>
@@ -56,8 +56,7 @@
                     </div>
                 </div>
                 <div class="note-row">
-                    <span class="tag brand"><a target="_blank" href="https://gitee.com/kekingcn/file-online-preview">Gitee</a></span>
-                    <span class="tag brand"><a target="_blank" href="https://github.com/kekingcn/kkFileView">GitHub</a></span>
+                    <span class="tag brand"><a target="_blank" href="https://github.com/jihuayu/kkFileView">GitHub</a></span>
                     <span class="tag highlight">完全开源</span>
                 </div>
             </div>

@@ -32,7 +32,7 @@ def main() -> int:
     env_pairs = {
         "KK_DEPLOY_ROOT": optional_env("KK_DEPLOY_ROOT", r"C:\kkFileView-5.0"),
         "KK_DEPLOY_HEALTH_URL": optional_env("KK_DEPLOY_HEALTH_URL", "http://127.0.0.1:8012/"),
-        "KK_DEPLOY_REPO_URL": optional_env("KK_DEPLOY_REPO_URL", "https://github.com/kekingcn/kkFileView.git"),
+        "KK_DEPLOY_REPO_URL": optional_env("KK_DEPLOY_REPO_URL", "https://github.com/jihuayu/kkFileView.git"),
         "KK_DEPLOY_BRANCH": optional_env("KK_DEPLOY_BRANCH", "master"),
         "KK_DEPLOY_SOURCE_ROOT": optional_env("KK_DEPLOY_SOURCE_ROOT", r"C:\kkFileView-source"),
         "KK_DEPLOY_JAVA_HOME": optional_env("KK_DEPLOY_JAVA_HOME", r"C:\Program Files\jdk-21.0.2"),

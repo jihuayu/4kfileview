@@ -35,19 +35,17 @@ Document online preview project solution, built using the popular Spring Boot fr
 - REST API
 - Abstract file preview interface so that it is easy to extend more file extensions and develop this project on your own
 
-### Official website and DOCS
+### Repository
 
-URL：[https://kkview.cn](https://kkview.cn/)
+URL：[https://github.com/jihuayu/kkFileView](https://github.com/jihuayu/kkFileView)
 
-### Live demo
-> Please treat public service kindly, or this would stop at any time.
+### Local demo
 
-URL：[https://file.kkview.cn](https://file.kkview.cn)
+URL：`http://127.0.0.1:8012/`
 
-### Contact Us
-> We will answer your questions carefully and solve any problems you encounter while using the project. We also kindly ask that you at least Google or Baidu before asking questions in order to save time and avoid ineffective communication. Let's cherish our lives and stay away from ineffective communication.
+### Issues
 
-<img src="./doc/github星球.png/" width="50%">
+URL：[https://github.com/jihuayu/kkFileView/issues](https://github.com/jihuayu/kkFileView/issues)
 
 ### Quick Start
 > Technology stack
@@ -59,11 +57,21 @@ URL：[https://file.kkview.cn](https://file.kkview.cn)
 - Redis(Optional, Unnecessary by default)
 - OpenOffice or LibreOffice(Integrated on Windows, will be installed automatically on Linux, need to be manually installed on Mac OS)
 
-1. First step：`git pull https://github.com/kekingcn/kkFileView.git`
+1. First step：`git clone https://github.com/jihuayu/kkFileView.git`
 
 2. second step：Run the main method of `/server/src/main/java/cn/keking/ServerMain.java`. After starting,visit `http://localhost:8012/`.
 
 ## Change History
+
+### Version 26.2.0 (June 15, 2026)
+
+#### Improvements
+1. Updated project metadata, repository links, issue/security reporting links, and startup help text to point at the maintained `jihuayu/kkFileView` repository.
+2. Updated the demo portal navigation and release timeline for the 26.2.0 release line.
+3. Updated Docker base-image examples and security configuration examples to use the 26.2.0 release tag.
+
+#### Fixed Issues
+1. Hardened demo file listing, upload, folder creation, and deletion paths to prevent directory traversal outside the demo directory.
 
 ### Version 5.0.0 (April 14, 2026)
 

@@ -32,22 +32,21 @@
 - 抽象预览服务接口，方便二次开发，非常方便添加其他类型文件预览支持
 - 最最重要 Apache 协议开源，代码 pull 下来想干嘛就干嘛
 
-### 官网及文档
+### 仓库地址
 
-地址：[https://kkview.cn](https://kkview.cn/)
+地址：[https://github.com/jihuayu/kkFileView](https://github.com/jihuayu/kkFileView)
 
-### 在线体验
-> 请善待公共服务，会不定时停用
+### 本地体验
 
-地址：[https://file.kkview.cn](https://file.kkview.cn)
+地址：`http://127.0.0.1:8012/`
 
-### 项目文档（Project documentation）
-1. 详细使用文档：https://kkview.cn/zh-cn/docs/home.html
+### 项目文档
 
-### 联系我们，加入组织
-> 我们会用心回答解决大家在项目使用中的问题，也请大家在提问前至少 Google 或 baidu 过，珍爱生命远离无效的交流沟通
+以当前仓库 README、配置文件与源码说明为准。
 
-<img src="./doc/gitee星球.png/" width="60%">
+### 问题反馈
+
+地址：[https://github.com/jihuayu/kkFileView/issues](https://github.com/jihuayu/kkFileView/issues)
 
 ### 文档预览效果
 #### 1. 文本预览
@@ -140,7 +139,7 @@ pdf预览模式预览效果如下
 - redis (可选，默认不用)
 - OpenOffice 或者 LibreOffice( Windows 下已内置，Linux 脚本启动模式会自动安装，Mac OS 下需要手动安装)
 
-1. 第一步：pull 项目 https://github.com/kekingcn/file-online-preview.git
+1. 第一步：clone 项目 https://github.com/jihuayu/kkFileView.git
 
 3. 第二步：运行 ServerMain 的 main 方法，服务启动后，访问 http://localhost:8012/
 会看到如下界面，代表服务启动成功
@@ -148,6 +147,14 @@ pdf预览模式预览效果如下
 ![输入图片说明](https://gitee.com/uploads/images/2017/1213/100221_ea15202e_492218.png "屏幕截图.png")
 
 ### 历史更新记录
+
+#### > 2026年06月15日，v26.2.0 版本发布 ：
+#### 优化内容
+1. 更新项目元数据、仓库链接、Issue/安全报告链接与启动脚本提示，统一指向当前维护的 `jihuayu/kkFileView` 仓库
+2. 更新演示门户导航与版本记录页面，使其对应 26.2.0 发布线
+3. 更新 Docker 基础镜像示例与安全配置示例，使用 26.2.0 发布标签
+#### 修复问题
+1. 加固演示文件列表、上传、创建文件夹与删除路径，防止目录穿越访问 demo 目录外的文件
 
 #### > 2026年04月14日，v5.0.0 版本发布 ：
 #### 优化内容
@@ -466,15 +473,15 @@ drawio 引用于 [drawio](https://github.com/jgraph/drawio )开源协议 Apache-
 bpmn流程图     引用于 [bpmn-js](https://github.com/bpmn-io/bpmn-js ) 自定义协议 保留水印 具体自行查看  
 dcm医疗数位影像  引用于 [dcmjs](https://github.com/dcmjs-org/dcmjs )开源协议MIT  
 
-### 使用登记
-如果这个项目解决了你的实际问题，可在 https://gitee.com/kekingcn/file-online-preview/issues/IGSBV
-登记下，如果节省了你的三方预览服务费用，也愿意支持下的话，可点击下方【捐助】请作者喝杯咖啡，也是非常感谢
+### 问题反馈
+如需反馈使用问题，请在当前项目仓库提交 issue：
+https://github.com/jihuayu/kkFileView/issues
 
 ### Stars
 
 #### GitHub
 
-[![Stargazers over time](https://starchart.cc/kekingcn/kkFileView.svg)](https://starchart.cc/kekingcn/kkFileView)
+[![Stargazers over time](https://starchart.cc/jihuayu/kkFileView.svg)](https://starchart.cc/jihuayu/kkFileView)
 
 ### 鸣谢
 - 本项目诞生于[凯京集团]，在取得公司高层同意后以 Apache 协议开源出来反哺社区，在此特别感谢凯京集团，以及集团领导[@唐老大](https://github.com/tangshd)的支持、@端木详笑的贡献。

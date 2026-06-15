@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -155,27 +156,29 @@ public class FileController {
             return checkResult;
         }
 
-        String uploadPath = fileDir + demoPath;
-        if (!ObjectUtils.isEmpty(path)) {
-            uploadPath += path + File.separator;
-        }
-
-        File outFile = new File(uploadPath);
-        if (!outFile.exists() && !outFile.mkdirs()) {
-            logger.error("创建文件夹【{}】失败，请检查目录权限！", uploadPath);
+        Path uploadPath;
+        try {
+            uploadPath = resolveDemoPath(path);
+            Files.createDirectories(uploadPath);
+        } catch (IOException e) {
+            logger.error("创建上传目录失败，请检查目录权限！", e);
             return ReturnResponse.failure("创建文件夹失败，请检查目录权限！");
+        } catch (IllegalArgumentException e) {
+            return ReturnResponse.failure("非法路径，上传失败！");
         }
 
         String fileName = checkResult.getContent().toString();
-        logger.info("上传文件：{}{}", uploadPath, fileName);
+        logger.info("上传文件：{}", fileName);
 
         try (InputStream in = file.getInputStream();
-             OutputStream out = Files.newOutputStream(Paths.get(uploadPath + fileName))) {
+             OutputStream out = Files.newOutputStream(resolveDemoChildPath(path, fileName))) {
             StreamUtils.copy(in, out);
             return ReturnResponse.success(null);
         } catch (IOException e) {
             logger.error("文件上传失败", e);
             return ReturnResponse.failure("文件上传失败");
+        } catch (IllegalArgumentException e) {
+            return ReturnResponse.failure("非法路径，上传失败！");
         }
     }
 
@@ -194,12 +197,11 @@ public class FileController {
             if (KkFileUtils.isIllegalFileName(folderName)) {
                 return ReturnResponse.failure("非法文件夹名称");
             }
-            String basePath = fileDir + demoPath;
-            if (!ObjectUtils.isEmpty(path)) {
-                basePath += path + File.separator;
+            if (containsPathSeparator(folderName)) {
+                return ReturnResponse.failure("文件夹名称不能包含路径分隔符");
             }
 
-            File newFolder = new File(basePath + folderName);
+            File newFolder = resolveDemoChildPath(path, folderName).toFile();
             if (newFolder.exists()) {
                 return ReturnResponse.failure("文件夹已存在");
             }
@@ -211,6 +213,8 @@ public class FileController {
                 logger.error("创建文件夹失败：{}", newFolder.getAbsolutePath());
                 return ReturnResponse.failure("创建文件夹失败，请检查目录权限");
             }
+        } catch (IllegalArgumentException e) {
+            return ReturnResponse.failure("非法路径，创建文件夹失败！");
         } catch (Exception e) {
             logger.error("创建文件夹异常", e);
             return ReturnResponse.failure("创建文件夹失败：" + e.getMessage());
@@ -225,9 +229,12 @@ public class FileController {
         }
         fileName = checkResult.getContent().toString();
 
-        // 构建完整路径
-        String fullPath = fileDir + demoPath + fileName;
-        File file = new File(fullPath);
+        File file;
+        try {
+            file = resolveDemoChildPath("", fileName).toFile();
+        } catch (IllegalArgumentException e) {
+            return ReturnResponse.failure("非法文件名，删除失败！");
+        }
 
         logger.info("删除文件/文件夹：{}", file.getAbsolutePath());
         if (file.exists()) {
@@ -278,7 +285,7 @@ public class FileController {
     /**
      * 验证码方法
      */
-    @RequestMapping("/deleteFile/captcha")
+    @GetMapping("/deleteFile/captcha")
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (!ConfigConstants.getDeleteCaptcha()) {
             return;
@@ -341,12 +348,8 @@ public class FileController {
             }
 
             // ==================== 2. 构建路径和验证 ====================
-            String basePath = fileDir + demoPath;
-            if (!ObjectUtils.isEmpty(path)) {
-                basePath += path + File.separator;
-            }
-
-            File currentDir = new File(basePath);
+            Path basePath = resolveDemoPath(path);
+            File currentDir = basePath.toFile();
             if (!currentDir.exists() || !currentDir.isDirectory()) {
                 result.put("total", 0);
                 result.put("data", Collections.emptyList());
@@ -357,13 +360,13 @@ public class FileController {
             List<Path> allPaths = new ArrayList<>();
             long collectStartTime = System.currentTimeMillis();
 
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(basePath))) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(basePath)) {
                 for (Path entry : stream) {
                     allPaths.add(entry);
                     stats.incrementFileCount();
                 }
             } catch (IOException e) {
-                logger.error("读取目录失败: {}", basePath, e);
+                logger.error("读取目录失败", e);
                 result.put("total", 0);
                 result.put("data", Collections.emptyList());
                 return result;
@@ -683,6 +686,14 @@ public class FileController {
         if (KkFileUtils.isIllegalFileName(fileName)) {
             return ReturnResponse.failure("不允许上传的文件名: " + fileName);
         }
+        if (containsPathSeparator(fileName)) {
+            return ReturnResponse.failure("不允许上传的文件名: " + fileName);
+        }
+        try {
+            resolveDemoPath(path);
+        } catch (IllegalArgumentException e) {
+            return ReturnResponse.failure("非法路径，上传失败！");
+        }
         FileType type = FileType.typeFromFileName(fileName);
         if (Objects.equals(type, FileType.OTHER)) {
             return ReturnResponse.failure("该文件格式还不支持预览，请联系管理员，添加该格式: " + fileName);
@@ -753,11 +764,54 @@ public class FileController {
     }
 
     private boolean existsFile(String fileName, String path) {
-        String fullPath = fileDir + demoPath;
-        if (!ObjectUtils.isEmpty(path)) {
-            fullPath += path + File.separator;
+        return Files.exists(resolveDemoChildPath(path, fileName));
+    }
+
+    private Path resolveDemoChildPath(String relativePath, String childName) {
+        if (ObjectUtils.isEmpty(childName) || containsPathSeparator(childName)) {
+            throw new IllegalArgumentException("Illegal child path");
         }
-        File file = new File(fullPath + fileName);
-        return file.exists();
+        Path root = demoRootPath();
+        Path target = resolveDemoPath(relativePath).resolve(childName).normalize();
+        if (!target.startsWith(root)) {
+            throw new IllegalArgumentException("Path escapes demo directory");
+        }
+        return target;
+    }
+
+    private Path resolveDemoPath(String relativePath) {
+        Path root = demoRootPath();
+        if (ObjectUtils.isEmpty(relativePath)) {
+            return root;
+        }
+        String cleaned = relativePath.replace('\\', '/');
+        if (cleaned.indexOf('\0') >= 0 || looksLikeWindowsAbsolutePath(cleaned)) {
+            throw new IllegalArgumentException("Illegal path");
+        }
+        try {
+            Path requested = Paths.get(cleaned);
+            if (requested.isAbsolute()) {
+                throw new IllegalArgumentException("Absolute path is not allowed");
+            }
+            Path target = root.resolve(requested).normalize();
+            if (!target.startsWith(root)) {
+                throw new IllegalArgumentException("Path escapes demo directory");
+            }
+            return target;
+        } catch (InvalidPathException e) {
+            throw new IllegalArgumentException("Illegal path", e);
+        }
+    }
+
+    private Path demoRootPath() {
+        return Paths.get(fileDir).resolve(demoDir).toAbsolutePath().normalize();
+    }
+
+    private boolean containsPathSeparator(String value) {
+        return value.contains("/") || value.contains("\\") || value.indexOf('\0') >= 0;
+    }
+
+    private boolean looksLikeWindowsAbsolutePath(String value) {
+        return value.length() >= 2 && Character.isLetter(value.charAt(0)) && value.charAt(1) == ':';
     }
 }

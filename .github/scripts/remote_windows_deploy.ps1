@@ -33,7 +33,7 @@ function Get-OptionalEnv {
 
 $DeployRoot = Get-OptionalEnv 'KK_DEPLOY_ROOT' 'C:\kkFileView-5.0'
 $HealthUrl = Get-OptionalEnv 'KK_DEPLOY_HEALTH_URL' 'http://127.0.0.1:8012/'
-$RepoUrl = Get-OptionalEnv 'KK_DEPLOY_REPO_URL' 'https://github.com/kekingcn/kkFileView.git'
+$RepoUrl = Get-OptionalEnv 'KK_DEPLOY_REPO_URL' 'https://github.com/jihuayu/kkFileView.git'
 $Branch = Get-OptionalEnv 'KK_DEPLOY_BRANCH' 'master'
 $SourceRoot = Get-OptionalEnv 'KK_DEPLOY_SOURCE_ROOT' 'C:\kkFileView-source'
 $JavaHome = Get-OptionalEnv 'KK_DEPLOY_JAVA_HOME' 'C:\Program Files\jdk-21.0.2'

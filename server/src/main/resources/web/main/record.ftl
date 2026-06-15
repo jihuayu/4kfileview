@@ -19,7 +19,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="https://kkview.cn" target="_blank">kkFileView</a>
+            <a class="navbar-brand" href="./index">kkFileView</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="./index">首页</a></li>
@@ -41,10 +41,10 @@
                     你可以先看最新版本的升级重点，再顺着时间轴继续了解历史版本细节。
                 </p>
                 <div class="release-badge-row">
-                    <span class="tag highlight">最新版本 v5.0.0</span>
-                    <span class="tag brand">发布日期 2026-04-14</span>
+                    <span class="tag highlight">最新版本 v26.2.0</span>
+                    <span class="tag brand">发布日期 2026-06-15</span>
                     <span class="tag warn">JDK 21+ 强制要求</span>
-                    <span class="tag">压缩包工作区预览 / PDF 默认模式</span>
+                    <span class="tag">仓库元数据 / 发布示例同步</span>
                 </div>
             </div>
         </section>
@@ -53,10 +53,42 @@
             <div class="timeline-year">2026</div>
             <div class="timeline-list">
                 <article class="release-card">
+                    <h3>v26.2.0</h3>
+                    <div class="release-meta">
+                        <span class="tag brand">2026-06-15</span>
+                        <span class="tag highlight">最新稳定版本</span>
+                        <span class="tag warn">升级需 JDK 21+</span>
+                    </div>
+                    <div class="release-columns">
+                        <div class="release-group">
+                            <h4>优化</h4>
+                            <ul class="release-list">
+                                <li>更新项目元数据、仓库链接、Issue 与安全报告链接。</li>
+                                <li>启动脚本帮助信息统一指向当前维护仓库。</li>
+                                <li>演示门户导航改为站内路由，减少对旧官网域名的依赖。</li>
+                            </ul>
+                        </div>
+                        <div class="release-group">
+                            <h4>更新</h4>
+                            <ul class="release-list">
+                                <li>版本号更新到 26.2.0。</li>
+                                <li>版本记录页与 README 增加 26.2.0 发布记录。</li>
+                                <li>Docker 基础镜像示例与安全配置示例同步使用 26.2.0 发布标签。</li>
+                            </ul>
+                        </div>
+                        <div class="release-group">
+                            <h4>修复</h4>
+                            <ul class="release-list">
+                                <li>加固演示文件列表、上传、创建文件夹与删除路径，防止目录穿越访问 demo 目录外的文件。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+                <article class="release-card">
                     <h3>v5.0.0</h3>
                     <div class="release-meta">
                         <span class="tag brand">2026-04-14</span>
-                        <span class="tag highlight">最新稳定版本</span>
+                        <span class="tag highlight">稳定版本</span>
                         <span class="tag warn">升级需 JDK 21+</span>
                     </div>
                     <div class="release-columns">

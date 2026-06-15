@@ -30,7 +30,7 @@
 - `KK_DEPLOY_HEALTH_URL=http://127.0.0.1:8012/`
 
 下面这些非敏感参数可以通过 workflow env 或 GitHub Variables 覆盖；未配置时会使用默认值：
-- `KK_DEPLOY_REPO_URL=https://github.com/kekingcn/kkFileView.git`
+- `KK_DEPLOY_REPO_URL=https://github.com/jihuayu/kkFileView.git`
 - `KK_DEPLOY_BRANCH=master`
 - `KK_DEPLOY_SOURCE_ROOT=C:\kkFileView-source`
 - `KK_DEPLOY_JAVA_HOME=C:\Program Files\jdk-21.0.2`

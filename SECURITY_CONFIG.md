@@ -12,10 +12,10 @@
 
 ```properties
 # 方式1：通过配置文件
-trust.host = kkview.cn,yourdomain.com,cdn.example.com
+trust.host = preview.example.com,yourdomain.com,cdn.example.com
 
 # 方式2：通过环境变量
-KK_TRUST_HOST=kkview.cn,yourdomain.com,cdn.example.com
+KK_TRUST_HOST=preview.example.com,yourdomain.com,cdn.example.com
 ```
 
 **示例场景**：
@@ -53,7 +53,7 @@ docker run -d \
   -e KK_TRUST_HOST=yourdomain.com,cdn.example.com \
   -e KK_NOT_TRUST_HOST=localhost,127.0.0.1 \
   -p 8012:8012 \
-  keking/kkfileview:4.4.0
+  ghcr.io/jihuayu/kkfileview:26.2.0
 ```
 
 ## 🛡️ 安全最佳实践
@@ -90,12 +90,12 @@ file.upload.disable = false
 
 1. 配置白名单：
 ```properties
-trust.host = kkview.cn
+trust.host = preview.example.com
 ```
 
 2. 尝试预览白名单内的文件：
 ```
-http://localhost:8012/onlinePreview?url=https://kkview.cn/test.pdf
+http://localhost:8012/onlinePreview?url=https://preview.example.com/test.pdf
 ✅ 应该可以正常预览
 ```
 
@@ -166,8 +166,7 @@ trust.host = *.example.com
 
 ## 📞 获取帮助
 
-- GitHub Issues: https://github.com/kekingcn/kkFileView/issues
-- Gitee Issues: https://gitee.com/kekingcn/file-online-preview/issues
+- GitHub Issues: https://github.com/jihuayu/kkFileView/issues
 
 ---
 

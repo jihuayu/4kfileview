@@ -74,7 +74,7 @@
 				menu:[
 			{
 				title:'kkFileView',
-				link:'https://www.kkview.cn',
+				link:'https://github.com/jihuayu/kkFileView',
 				underline:true
 			},
 			{
