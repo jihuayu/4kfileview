@@ -77,7 +77,7 @@ public class SimTextFilePreviewImpl implements FilePreview {
             return null;
         }
         if (!file.exists() || file.length() == 0) {
-            return "";
+            return "KK提醒您：文件不存在或者已经被删除了!";
         } else {
             String charset = EncodingDetects.getJavaEncode(filePath);
             if ("ASCII".equals(charset)) {
