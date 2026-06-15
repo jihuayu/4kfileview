@@ -1,5 +1,5 @@
 # 构建阶段
-FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-21 AS builder
+FROM --platform=$BUILDPLATFORM public.ecr.aws/docker/library/maven:3.9-eclipse-temurin-21 AS builder
 
 # 设置工作目录
 WORKDIR /app
@@ -12,7 +12,7 @@ COPY server/ server/
 RUN mvn -B package -Dmaven.test.skip=true -Dlibreoffice.portable.skip=true --file pom.xml
 
 # 运行阶段
-FROM --platform=$TARGETPLATFORM ubuntu:24.04
+FROM --platform=$TARGETPLATFORM public.ecr.aws/docker/library/ubuntu:24.04
 
 # 添加元数据
 LABEL org.opencontainers.image.description="专注文件在线预览服务 | File preview service based on kkFileView"
