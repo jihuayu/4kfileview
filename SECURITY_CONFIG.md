@@ -53,7 +53,7 @@ docker run -d \
   -e KK_TRUST_HOST=yourdomain.com,cdn.example.com \
   -e KK_NOT_TRUST_HOST=localhost,127.0.0.1 \
   -p 8012:8012 \
-  ghcr.io/jihuayu/kkfileview:26.2.0
+  ghcr.io/jihuayu/kkfileview:v26.2.0
 ```
 
 ## 🛡️ 安全最佳实践

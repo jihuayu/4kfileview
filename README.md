@@ -68,7 +68,7 @@ URL：[https://github.com/jihuayu/kkFileView/issues](https://github.com/jihuayu/
 #### Improvements
 1. Updated project metadata, repository links, issue/security reporting links, and startup help text to point at the maintained `jihuayu/kkFileView` repository.
 2. Updated the demo portal navigation and release timeline for the 26.2.0 release line.
-3. Updated Docker base-image examples and security configuration examples to use the 26.2.0 release tag.
+3. Updated Docker base-image examples and security configuration examples to use the v26.2.0 image tag.
 
 #### Fixed Issues
 1. Hardened demo file listing, upload, folder creation, and deletion paths to prevent directory traversal outside the demo directory.

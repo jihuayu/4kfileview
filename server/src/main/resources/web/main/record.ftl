@@ -73,7 +73,7 @@
                             <ul class="release-list">
                                 <li>版本号更新到 26.2.0。</li>
                                 <li>版本记录页与 README 增加 26.2.0 发布记录。</li>
-                                <li>Docker 基础镜像示例与安全配置示例同步使用 26.2.0 发布标签。</li>
+                                <li>Docker 基础镜像示例与安全配置示例同步使用 v26.2.0 镜像标签。</li>
                             </ul>
                         </div>
                         <div class="release-group">
