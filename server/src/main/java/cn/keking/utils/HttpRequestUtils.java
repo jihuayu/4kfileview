@@ -19,6 +19,7 @@ import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -312,6 +313,20 @@ public class HttpRequestUtils {
             throw e;
         }
         // 注意：不再关闭HttpClient，由连接池管理
+    }
+
+    /**
+     * 读取远程文件响应头，用于无后缀URL的文件名和类型推断。
+     */
+    public static HttpHeaders executeHeadRequest(java.net.URL url, FileAttribute fileAttribute) throws Exception {
+        CloseableHttpClient httpClient = createConfiguredHttpClient();
+        RestTemplate restTemplate = getCachedRestTemplate(httpClient);
+        RequestCallback requestCallback = createRequestCallback(url.toString(), fileAttribute);
+        return restTemplate.execute(url.toURI(), HttpMethod.HEAD, requestCallback, response -> {
+            HttpHeaders headers = new HttpHeaders();
+            headers.putAll(response.getHeaders());
+            return headers;
+        });
     }
 
     /**

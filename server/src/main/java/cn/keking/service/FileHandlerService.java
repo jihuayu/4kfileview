@@ -8,6 +8,7 @@ import cn.keking.utils.*;
 import cn.keking.web.filter.BaseUrlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,11 @@ import org.springframework.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.*;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -240,6 +243,14 @@ public class FileHandlerService {
             originFileName = WebUtils.getFileNameFromURL(url);
             type = FileType.typeFromUrl(url);
             suffix = WebUtils.suffixFromUrl(url);
+            if (!hasFileExtension(originFileName)) {
+                String inferredFileName = inferFileNameFromHttpHeaders(url, originFileName, req);
+                if (StringUtils.hasText(inferredFileName)) {
+                    originFileName = inferredFileName;
+                    type = FileType.typeFromFileName(originFileName);
+                    suffix = KkFileUtils.suffixFromFileName(originFileName);
+                }
+            }
         }
         boolean isCompressFile = !ObjectUtils.isEmpty(compressFileKey);
         if (isCompressFile) {  //判断是否使用特定压缩包符号
@@ -325,6 +336,99 @@ public class FileHandlerService {
         }
 
         return attribute;
+    }
+
+    private String inferFileNameFromHttpHeaders(String url, String fallbackFileName, HttpServletRequest req) {
+        try {
+            URL sourceUrl = WebUtils.normalizedURL(url);
+            if (!KkFileUtils.isHttpUrl(sourceUrl)) {
+                return null;
+            }
+            FileAttribute requestAttribute = new FileAttribute();
+            if (req != null) {
+                requestAttribute.setKkProxyAuthorization(req.getHeader("kk-proxy-authorization"));
+            }
+            HttpHeaders headers = HttpRequestUtils.executeHeadRequest(sourceUrl, requestAttribute);
+            if (headers == null) {
+                return null;
+            }
+
+            String suffix = suffixFromContentType(headers.getFirst(HttpHeaders.CONTENT_TYPE));
+            String contentDispositionFileName = normalizeInferredFileName(headers.getContentDisposition().getFilename());
+            if (StringUtils.hasText(contentDispositionFileName)) {
+                return hasFileExtension(contentDispositionFileName)
+                        ? contentDispositionFileName
+                        : appendSuffix(contentDispositionFileName, suffix);
+            }
+            return appendSuffix(fallbackFileName, suffix);
+        } catch (Exception e) {
+            logger.debug("Failed to infer file type from response headers, url: {}", url, e);
+            return null;
+        }
+    }
+
+    private String normalizeInferredFileName(String fileName) {
+        if (!StringUtils.hasText(fileName)) {
+            return null;
+        }
+        String normalized = fileName.replace('\\', '/');
+        normalized = normalized.substring(normalized.lastIndexOf('/') + 1);
+        return KkFileUtils.isIllegalFileName(normalized) ? null : normalized;
+    }
+
+    private boolean hasFileExtension(String fileName) {
+        if (!StringUtils.hasText(fileName)) {
+            return false;
+        }
+        int dotIndex = fileName.lastIndexOf(".");
+        return dotIndex > 0 && dotIndex < fileName.length() - 1;
+    }
+
+    private String appendSuffix(String fileName, String suffix) {
+        if (!StringUtils.hasText(suffix)) {
+            return null;
+        }
+        String baseName = StringUtils.hasText(fileName) ? fileName : "file";
+        return hasFileExtension(baseName) ? baseName : baseName + "." + suffix;
+    }
+
+    private String suffixFromContentType(String contentType) {
+        if (!StringUtils.hasText(contentType)) {
+            return null;
+        }
+        String lowerContentType = contentType.toLowerCase(Locale.ROOT);
+        int semicolonIndex = lowerContentType.indexOf(';');
+        if (semicolonIndex > -1) {
+            lowerContentType = lowerContentType.substring(0, semicolonIndex).trim();
+        }
+        return switch (lowerContentType) {
+            case "application/pdf" -> "pdf";
+            case "application/msword" -> "doc";
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> "docx";
+            case "application/vnd.ms-excel" -> "xls";
+            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> "xlsx";
+            case "application/vnd.ms-powerpoint" -> "ppt";
+            case "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> "pptx";
+            case "application/rtf" -> "rtf";
+            case "application/zip" -> "zip";
+            case "application/json" -> "json";
+            case "application/xml", "text/xml" -> "xml";
+            case "text/csv" -> "csv";
+            case "text/html" -> "html";
+            case "text/plain" -> "txt";
+            case "image/jpeg" -> "jpg";
+            case "image/png" -> "png";
+            case "image/gif" -> "gif";
+            case "image/bmp" -> "bmp";
+            case "image/webp" -> "webp";
+            case "image/svg+xml" -> "svg";
+            case "image/heic" -> "heic";
+            case "image/heif" -> "heif";
+            case "image/avif" -> "avif";
+            case "model/gltf+json" -> "gltf";
+            case "model/gltf-binary" -> "glb";
+            default -> null;
+        };
     }
 
     /**
