@@ -1,0 +1,76 @@
+name: Sonar
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**/*.md'
+      - 'doc/**'
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - '**/*.md'
+      - 'doc/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sonar:
+    name: Sonar analysis
+    runs-on: ubuntu-22.04
+
+    env:
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}
+      SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || 'jihuayu' }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY || 'jihuayu_kkFileView' }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+      - name: Check Sonar configuration
+        id: sonar-config
+        run: |
+          if [ -z "${SONAR_TOKEN}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::SONAR_TOKEN is not configured; skipping Sonar analysis."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout repository
+        if: steps.sonar-config.outputs.configured == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        if: steps.sonar-config.outputs.configured == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Cache Sonar packages
+        if: steps.sonar-config.outputs.configured == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Run Sonar analysis
+        if: steps.sonar-config.outputs.configured == 'true'
+        run: >
+          mvn -B -ntp -pl server -am
+          -DskipTests
+          -Dassembly.skipAssembly=true
+          -Dlibreoffice.portable.skip=true
+          verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.host.url="${SONAR_HOST_URL}"
+          -Dsonar.token="${SONAR_TOKEN}"
+          -Dsonar.organization="${SONAR_ORGANIZATION}"
+          -Dsonar.projectKey="${SONAR_PROJECT_KEY}"
+          -Dsonar.exclusions="server/src/main/resources/static/**,server/target/**,tests/e2e/playwright-report/**"
+

@@ -1,0 +1,64 @@
+version: 2
+
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '04:00'
+      timezone: Asia/Shanghai
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - java
+    commit-message:
+      prefix: deps
+      include: scope
+    groups:
+      spring:
+        patterns:
+          - org.springframework.boot:*
+          - org.springframework:*
+      document-processing:
+        patterns:
+          - org.apache.poi:*
+          - org.apache.pdfbox:*
+          - org.jodconverter:*
+          - fr.opensagres.xdocreport:*
+      media-native:
+        patterns:
+          - org.bytedeco:*
+          - org.rocksdb:*
+          - net.sf.sevenzipjbinding:*
+
+  - package-ecosystem: npm
+    directory: /tests/e2e
+    schedule:
+      interval: weekly
+      day: monday
+      time: '04:30'
+      timezone: Asia/Shanghai
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - e2e
+    commit-message:
+      prefix: deps
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:00'
+      timezone: Asia/Shanghai
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - ci
+    commit-message:
+      prefix: deps
+      include: scope
+
