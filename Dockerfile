@@ -8,8 +8,8 @@ WORKDIR /app
 COPY pom.xml .
 COPY server/ server/
 
-# 构建项目
-RUN mvn -B package -Dmaven.test.skip=true --file pom.xml
+# 构建项目；Docker 运行阶段安装系统 LibreOffice，无需准备 Windows Portable 包
+RUN mvn -B package -Dmaven.test.skip=true -Dlibreoffice.portable.skip=true --file pom.xml
 
 # 运行阶段
 FROM --platform=$TARGETPLATFORM ubuntu:24.04
