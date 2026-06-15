@@ -194,10 +194,6 @@ jobs:
         run: |
           docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta-ghcr.outputs.version }}
 
-      - name: Inspect Docker Hub image
-        run: |
-          docker buildx imagetools inspect ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO }}:${{ steps.meta-dockerhub.outputs.version }}
-
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.5.0
         with:
@@ -206,17 +202,6 @@ jobs:
       - name: Sign GHCR images
         env:
           TAGS: ${{ steps.meta-ghcr.outputs.tags }}
-        run: |
-          echo "${TAGS}" | while read -r tag; do
-            [ -z "$tag" ] && continue
-            echo "Signing ${tag}..."
-            digest=$(docker buildx imagetools inspect "${tag}" --format '{{json .Manifest}}' | jq -r '.digest')
-            cosign sign --yes "${tag}@${digest}"
-          done
-
-      - name: Sign Docker Hub images
-        env:
-          TAGS: ${{ steps.meta-dockerhub.outputs.tags }}
         run: |
           echo "${TAGS}" | while read -r tag; do
             [ -z "$tag" ] && continue
