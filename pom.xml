@@ -68,6 +68,14 @@
         <xstream.version>1.4.21</xstream.version>
         <antlr.version>2.7.7</antlr.version>
         <galimatias.version>0.2.1</galimatias.version>
+
+        <!-- ========== Windows distribution vendor artifacts ========== -->
+        <libreoffice.portable.version>7.5.9</libreoffice.portable.version>
+        <libreoffice.portable.archive>LibreOfficePortableLegacy75_${libreoffice.portable.version}_MultilingualAll.paf.exe</libreoffice.portable.archive>
+        <libreoffice.portable.url>https://downloads.sourceforge.net/project/portableapps/LibreOffice%20Portable/${libreoffice.portable.archive}</libreoffice.portable.url>
+        <libreoffice.portable.sha256>6a3c10aeed81e3ad9d521d780954c7983d37713132959bff0cf6b682c4714c90</libreoffice.portable.sha256>
+        <libreoffice.portable.skip>false</libreoffice.portable.skip>
+        <assembly.skipAssembly>false</assembly.skipAssembly>
     </properties>
 
     <modules>

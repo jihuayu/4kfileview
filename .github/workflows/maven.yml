@@ -24,6 +24,17 @@ jobs:
         distribution: 'temurin'  # 使用 Eclipse Temurin (AdoptOpenJDK 的继任者)
         cache: 'maven'
 
+    - name: Install distribution build tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y p7zip-full
+
+    - name: Cache LibreOffice Portable installer
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/kkfileview/vendor
+        key: ${{ runner.os }}-libreoffice-portable-7.5.9-multilingual-all
+
     - name: Cache Maven packages
       uses: actions/cache@v4
       with:

@@ -355,6 +355,7 @@
                 <version>3.4.2</version>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
+                    <skipAssembly>${assembly.skipAssembly}</skipAssembly>
                     <descriptors>
                         <descriptor>src/main/assembly/dist-win32.xml</descriptor>
                         <descriptor>src/main/assembly/dist-linux.xml</descriptor>
@@ -372,4 +373,122 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>prepare-libreoffice-portable-unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-libreoffice-portable</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${libreoffice.portable.skip}</skip>
+                                    <executable>bash</executable>
+                                    <arguments>
+                                        <argument>${project.basedir}/src/main/bin/prepare-libreoffice-portable.sh</argument>
+                                        <argument>${libreoffice.portable.url}</argument>
+                                        <argument>${libreoffice.portable.archive}</argument>
+                                        <argument>${libreoffice.portable.sha256}</argument>
+                                        <argument>${project.build.directory}/vendor</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>prepare-libreoffice-portable-mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-libreoffice-portable</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${libreoffice.portable.skip}</skip>
+                                    <executable>bash</executable>
+                                    <arguments>
+                                        <argument>${project.basedir}/src/main/bin/prepare-libreoffice-portable.sh</argument>
+                                        <argument>${libreoffice.portable.url}</argument>
+                                        <argument>${libreoffice.portable.archive}</argument>
+                                        <argument>${libreoffice.portable.sha256}</argument>
+                                        <argument>${project.build.directory}/vendor</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>prepare-libreoffice-portable-windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-libreoffice-portable</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${libreoffice.portable.skip}</skip>
+                                    <executable>powershell</executable>
+                                    <arguments>
+                                        <argument>-NoProfile</argument>
+                                        <argument>-ExecutionPolicy</argument>
+                                        <argument>Bypass</argument>
+                                        <argument>-File</argument>
+                                        <argument>${project.basedir}\src\main\bin\prepare-libreoffice-portable.ps1</argument>
+                                        <argument>${libreoffice.portable.url}</argument>
+                                        <argument>${libreoffice.portable.archive}</argument>
+                                        <argument>${libreoffice.portable.sha256}</argument>
+                                        <argument>${project.build.directory}\vendor</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

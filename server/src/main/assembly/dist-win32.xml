@@ -25,7 +25,7 @@
             <outputDirectory>${file.separator}log</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>LibreOfficePortable</directory>
+            <directory>${project.build.directory}${file.separator}vendor${file.separator}LibreOfficePortable</directory>
             <outputDirectory>${file.separator}LibreOfficePortable</outputDirectory>
         </fileSet>
         <fileSet>

@@ -47,7 +47,7 @@ jobs:
           pip install -r tests/e2e/requirements.txt
 
       - name: Build kkFileView
-        run: mvn -q -pl server -DskipTests package
+        run: mvn -q -pl server -DskipTests -Dassembly.skipAssembly=true -Dlibreoffice.portable.skip=true package
 
       - name: Install E2E deps
         working-directory: tests/e2e
