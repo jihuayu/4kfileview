@@ -23,12 +23,34 @@
     var url = '${finalUrl}';
     var kkagent = '${kkagent}';
     var baseUrl = '${baseUrl}'.endsWith('/') ? '${baseUrl}' : '${baseUrl}' + '/';
-    if (kkagent === 'true' || !url.startsWith(baseUrl)) {
-		 url = baseUrl + 'getCorsFile?urlPath=' + encodeURIComponent(Base64.encode(url))+ "&key=${kkkey}";
-		 document.getElementsByTagName('iframe')[0].src = "${baseUrl}website/index.html#model="+ url + "&fullfilename=/${file.name}";
-    }else{
-	document.getElementsByTagName('iframe')[0].src = "${baseUrl}website/index.html#model="+ url;
-	}
+    var modelUrls = [{url: url, name: '${file.name?js_string}'}];
+<#if online3DResourceUrls??>
+<#list online3DResourceUrls as resourceUrl>
+    modelUrls.push({url: '${resourceUrl?js_string}', name: fileNameFromUrl('${resourceUrl?js_string}')});
+</#list>
+</#if>
+
+    function fileNameFromUrl(sourceUrl) {
+        try {
+            var parsedUrl = new URL(sourceUrl, window.location.href);
+            var path = parsedUrl.pathname;
+            return decodeURIComponent(path.substring(path.lastIndexOf('/') + 1)) || 'resource';
+        } catch (e) {
+            var cleanUrl = sourceUrl.split('?')[0];
+            return decodeURIComponent(cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1)) || 'resource';
+        }
+    }
+
+    function toViewerUrl(source) {
+        var viewerUrl = source.url;
+        if (kkagent === 'true' || !viewerUrl.startsWith(baseUrl)) {
+            viewerUrl = baseUrl + 'getCorsFile?urlPath=' + encodeURIComponent(Base64.encode(viewerUrl)) + "&key=${kkkey}";
+            viewerUrl += "&fullfilename=/" + encodeURIComponent(source.name);
+        }
+        return viewerUrl;
+    }
+
+    document.getElementsByTagName('iframe')[0].src = "${baseUrl}website/index.html#model=" + modelUrls.map(toViewerUrl).join(",");
 	
     document.getElementsByTagName('iframe')[0].height = document.documentElement.clientHeight - 10;
     /**
