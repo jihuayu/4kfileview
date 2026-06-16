@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>kkFileView-parent</artifactId>
+        <artifactId>4kfileview-parent</artifactId>
         <groupId>cn.keking</groupId>
         <version>26.2.0</version>
     </parent>
 
-    <artifactId>kkFileView</artifactId>
+    <artifactId>4kfileview</artifactId>
 
     <dependencyManagement>
         <dependencies>

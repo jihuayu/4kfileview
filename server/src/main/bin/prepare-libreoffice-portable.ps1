@@ -9,10 +9,12 @@ $ErrorActionPreference = 'Stop'
 
 $AppDir = Join-Path $VendorDir 'LibreOfficePortable'
 $AppInfo = Join-Path $AppDir 'App\AppInfo\appinfo.ini'
-$CacheDir = if ($env:KKFILEVIEW_VENDOR_CACHE) {
+$CacheDir = if ($env:FOURKFILEVIEW_VENDOR_CACHE) {
+    $env:FOURKFILEVIEW_VENDOR_CACHE
+} elseif ($env:KKFILEVIEW_VENDOR_CACHE) {
     $env:KKFILEVIEW_VENDOR_CACHE
 } else {
-    Join-Path $env:USERPROFILE '.cache\kkfileview\vendor'
+    Join-Path $env:USERPROFILE '.cache\4kfileview\vendor'
 }
 $ArchivePath = Join-Path $CacheDir $ArchiveName
 

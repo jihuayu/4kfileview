@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
 
     <groupId>cn.keking</groupId>
-    <artifactId>kkFileView-parent</artifactId>
+    <artifactId>4kfileview-parent</artifactId>
     <version>26.2.0</version>
 
     <properties>
@@ -83,9 +83,9 @@
     </modules>
 
     <!-- ========== 项目信息 ========== -->
-    <name>kkFileView-parent</name>
+    <name>4kfileview-parent</name>
     <description>专注文件在线预览服务</description>
-    <url>https://github.com/jihuayu/kkFileView</url>
+    <url>https://github.com/jihuayu/4kfileview</url>
 
     <licenses>
         <license>
@@ -95,9 +95,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/jihuayu/kkFileView</url>
-        <connection>scm:git:https://github.com/jihuayu/kkFileView.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jihuayu/kkFileView.git</developerConnection>
+        <url>https://github.com/jihuayu/4kfileview</url>
+        <connection>scm:git:https://github.com/jihuayu/4kfileview.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/jihuayu/4kfileview.git</developerConnection>
     </scm>
 
     <developers>
@@ -116,6 +116,6 @@
 
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/jihuayu/kkFileView/issues</url>
+        <url>https://github.com/jihuayu/4kfileview/issues</url>
     </issueManagement>
 </project>

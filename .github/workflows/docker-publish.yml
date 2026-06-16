@@ -27,9 +27,8 @@ jobs:
 
       - name: Prepare environment
         run: |
-          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          repository=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | cut -d '/' -f 2)
-          echo "REPO=${repository}" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME=$(echo '${{ github.repository_owner }}/4kfileview' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "REPO=4kfileview" >> "$GITHUB_ENV"
 
       - name: Set platform tag
         id: platform
@@ -129,9 +128,8 @@ jobs:
 
       - name: Prepare environment
         run: |
-          echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-          repository=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | cut -d '/' -f 2)
-          echo "REPO=${repository}" >> "$GITHUB_ENV"
+          echo "IMAGE_NAME=$(echo '${{ github.repository_owner }}/4kfileview' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "REPO=4kfileview" >> "$GITHUB_ENV"
 
       - name: Download GHCR digests
         uses: actions/download-artifact@v8

@@ -32,7 +32,7 @@ jobs:
     - name: Cache LibreOffice Portable installer
       uses: actions/cache@v4
       with:
-        path: ~/.cache/kkfileview/vendor
+        path: ~/.cache/4kfileview/vendor
         key: ${{ runner.os }}-libreoffice-portable-7.5.9-multilingual-all
 
     - name: Cache Maven packages
@@ -50,7 +50,7 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: kkfileview-linux
+        name: 4kfileview-linux
         path: server/target/*.tar.gz
         retention-days: 7
 
@@ -58,6 +58,6 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: kkfileview-windows
+        name: 4kfileview-windows
         path: server/target/*.zip
         retention-days: 7

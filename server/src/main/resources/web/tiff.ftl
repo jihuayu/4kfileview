@@ -107,7 +107,7 @@ html += "    <span>";
 html += "        该(tif)文件，系统解析错误，具体原因如下：";
 html += "        <p style=\"color: red;\">文件[${file.name}]解析失败，请联系系统管理员</p>";
 html += "    </span>";
-html += "    <p>有任何疑问，请联系系统管理员，或在项目仓库提交 issue：<a href=\"https://github.com/jihuayu/kkFileView/issues\">https://github.com/jihuayu/kkFileView/issues</a><br></p>";
+html += "    <p>有任何疑问，请联系系统管理员，或在项目仓库提交 issue：<a href=\"https://github.com/jihuayu/4kfileview/issues\">https://github.com/jihuayu/4kfileview/issues</a><br></p>";
 html += "</div>";
 html += "</body>";
 html += "</html>";

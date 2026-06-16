@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>kkFileView 版本记录</title>
+    <title>4kfileview 版本记录</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="./index">kkFileView</a>
+            <a class="navbar-brand" href="./index">4kfileview</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="./index">首页</a></li>

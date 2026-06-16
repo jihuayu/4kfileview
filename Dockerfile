@@ -15,8 +15,8 @@ RUN mvn -B package -Dmaven.test.skip=true -Dlibreoffice.portable.skip=true --fil
 FROM --platform=$TARGETPLATFORM public.ecr.aws/docker/library/ubuntu:24.04
 
 # 添加元数据
-LABEL org.opencontainers.image.description="专注文件在线预览服务 | File preview service based on kkFileView"
-LABEL org.opencontainers.image.source="https://github.com/jihuayu/kkFileView"
+LABEL org.opencontainers.image.description="专注文件在线预览服务 | File preview service based on 4kfileview"
+LABEL org.opencontainers.image.source="https://github.com/jihuayu/4kfileview"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
 LABEL maintainer="jihuayu <jihuayu123@gmail.com>"
 RUN apt-get update && \
@@ -48,7 +48,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # 内置一些常用的中文字体，避免普遍性乱码
-ADD docker/kkfileview-base/fonts/* /usr/share/fonts/chinese/
+ADD docker/4kfileview-base/fonts/* /usr/share/fonts/chinese/
 
 RUN cd /usr/share/fonts/chinese &&\
     # 安装字体
@@ -62,20 +62,20 @@ ENV LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8
 WORKDIR /opt
 
 # 从构建阶段复制构建好的应用
-COPY --from=builder /app/server/target/kkFileView-*.tar.gz .
-RUN tar -xzf kkFileView-*.tar.gz && \
-    mkdir -p kkFileView && \
-    mv kkFileView-*/* kkFileView/ && \
-    rm -rf kkFileView-* && \
-    rm kkFileView-*.tar.gz || true
+COPY --from=builder /app/server/target/4kfileview-*.tar.gz .
+RUN tar -xzf 4kfileview-*.tar.gz && \
+    mkdir -p 4kfileview && \
+    mv 4kfileview-*/* 4kfileview/ && \
+    rm -rf 4kfileview-* && \
+    rm 4kfileview-*.tar.gz || true
 
-RUN mv /opt/kkFileView/bin/kkFileView-*.jar /opt/kkFileView/bin/kkFileView.jar
+RUN mv /opt/4kfileview/bin/4kfileview-*.jar /opt/4kfileview/bin/4kfileview.jar
 
 # 设置环境变量
-ENV KKFILEVIEW_BIN_FOLDER=/opt/kkFileView/bin
+ENV FOURKFILEVIEW_BIN_FOLDER=/opt/4kfileview/bin
 
 # 声明端口
 EXPOSE 8012
 
 # 启动命令
-ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Dspring.config.location=/opt/kkFileView/config/application.properties","-jar","/opt/kkFileView/bin/kkFileView.jar"]
+ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Dspring.config.location=/opt/4kfileview/config/application.properties","-jar","/opt/4kfileview/bin/4kfileview.jar"]

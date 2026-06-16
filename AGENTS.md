@@ -4,7 +4,7 @@ This document is for coding agents and automation tools working in this reposito
 
 ## Project Overview
 
-- Project: `kkFileView`
+- Project: `4kfileview`
 - Stack: Spring Boot + Freemarker + Redis/Redisson (optional) + JODConverter + front-end preview pages
 - Main module: `server`
 - Default local URL: `http://127.0.0.1:8012/`
@@ -172,7 +172,7 @@ PR E2E currently covers:
 - archive smoke tests
 - basic security and performance checks
 
-## CI / Deployment
+## CI / Release
 
 ### CI
 
@@ -181,23 +181,26 @@ PR E2E currently covers:
   - builds on PRs targeting `master`
 - `pr-e2e-mvp.yml`
   - runs E2E on PRs to `master`
+- `nightly-e2e.yml`
+  - runs broader E2E coverage on a nightly schedule
+- `codeql.yml`
+  - runs GitHub CodeQL analysis
+- `dependency-review.yml`
+  - reviews dependency changes on pull requests
+- `sonar.yml`
+  - runs Sonar analysis when `SONAR_TOKEN` is configured
 
-### Production deployment
+### Release
 
-- `master-auto-deploy.yml`
-  - triggers on push to `master`
-  - deploys to Windows over WinRM
+- `docker-publish.yml`
+  - builds and publishes Docker images for release branches/tags
 
-Deployment script:
-
-- `.github/scripts/remote_windows_deploy.ps1`
-
-Important operational detail:
+Runtime config detail:
 
 - the committed `bin/startup.bat` in this repo points at `..\config\application.properties`
-- if production uses a different config file, treat that as an out-of-repo server override rather than a repository default
+- if an environment uses a different config file, treat that as an out-of-repo runtime override rather than the repository default
 
-If a production config change “does not take effect”, inspect the actual startup command or deployed `startup.bat` on the server first and verify which config file path it is using.
+If a config change “does not take effect”, inspect the actual startup command or deployed `startup.bat` first and verify which config file path it is using.
 
 ## Working Conventions For Agents
 

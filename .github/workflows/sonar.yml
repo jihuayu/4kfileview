@@ -24,7 +24,7 @@ jobs:
     env:
       SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}
       SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || 'jihuayu' }}
-      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY || 'jihuayu_kkFileView' }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY || 'jihuayu_4kfileview' }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
@@ -73,4 +73,3 @@ jobs:
           -Dsonar.organization="${SONAR_ORGANIZATION}"
           -Dsonar.projectKey="${SONAR_PROJECT_KEY}"
           -Dsonar.exclusions="server/src/main/resources/static/**,server/target/**,tests/e2e/playwright-report/**"
-

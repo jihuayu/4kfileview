@@ -1,2 +1,2 @@
 #!/bin/bash
-tail -fn 300 ../log/kkFileView.log
+tail -fn 300 ../log/4kfileview.log

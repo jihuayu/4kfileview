@@ -9,18 +9,18 @@ fs.mkdirSync(fixturesDir, { recursive: true });
 
 const write = (name, content) => fs.writeFileSync(path.join(fixturesDir, name), content);
 
-write('sample.txt', 'kkFileView e2e sample text');
-write('sample.md', '# kkFileView\n\nThis is a markdown fixture.');
-write('sample.json', JSON.stringify({ app: 'kkFileView', e2e: true }, null, 2));
-write('sample.xml', '<root><name>kkFileView</name><e2e>true</e2e></root>');
-write('sample.csv', 'name,value\nkkFileView,1\ne2e,1\n');
-write('sample.html', '<!doctype html><html><body><h1>kkFileView fixture</h1></body></html>');
+write('sample.txt', '4kfileview e2e sample text');
+write('sample.md', '# 4kfileview\n\nThis is a markdown fixture.');
+write('sample.json', JSON.stringify({ app: '4kfileview', e2e: true }, null, 2));
+write('sample.xml', '<root><name>4kfileview</name><e2e>true</e2e></root>');
+write('sample.csv', 'name,value\n4kfileview,1\ne2e,1\n');
+write('sample.html', '<!doctype html><html><body><h1>4kfileview fixture</h1></body></html>');
 
 // archive fixtures (contains inner.txt) - generate if missing
 const archiveWork = path.join(fixturesDir, 'archive-tmp');
 fs.mkdirSync(archiveWork, { recursive: true });
 const innerFile = path.join(archiveWork, 'inner.txt');
-fs.writeFileSync(innerFile, 'kkFileView archive inner file');
+fs.writeFileSync(innerFile, '4kfileview archive inner file');
 
 const ensureArchive = (name, generator) => {
   const out = path.join(fixturesDir, name);
@@ -124,7 +124,7 @@ write(
 // tiny valid pdf
 write(
   'sample.pdf',
-  `%PDF-1.1\n1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj\n2 0 obj<< /Type /Pages /Kids [3 0 R] /Count 1 >>endobj\n3 0 obj<< /Type /Page /Parent 2 0 R /MediaBox [0 0 200 200] /Contents 4 0 R >>endobj\n4 0 obj<< /Length 44 >>stream\nBT /F1 12 Tf 72 120 Td (kkFileView e2e pdf) Tj ET\nendstream\nendobj\nxref\n0 5\n0000000000 65535 f \n0000000010 00000 n \n0000000060 00000 n \n0000000117 00000 n \n0000000212 00000 n \ntrailer<< /Root 1 0 R /Size 5 >>\nstartxref\n306\n%%EOF\n`
+  `%PDF-1.1\n1 0 obj<< /Type /Catalog /Pages 2 0 R >>endobj\n2 0 obj<< /Type /Pages /Kids [3 0 R] /Count 1 >>endobj\n3 0 obj<< /Type /Page /Parent 2 0 R /MediaBox [0 0 200 200] /Contents 4 0 R >>endobj\n4 0 obj<< /Length 44 >>stream\nBT /F1 12 Tf 72 120 Td (4kfileview e2e pdf) Tj ET\nendstream\nendobj\nxref\n0 5\n0000000000 65535 f \n0000000010 00000 n \n0000000060 00000 n \n0000000117 00000 n \n0000000212 00000 n \ntrailer<< /Root 1 0 R /Size 5 >>\nstartxref\n306\n%%EOF\n`
 );
 
 console.log('fixtures generated in', fixturesDir);

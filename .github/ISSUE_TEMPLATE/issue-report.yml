@@ -33,9 +33,9 @@ body:
       required: true
 
   - type: input
-    id: kkfileview_version
+    id: fourkfileview_version
     attributes:
-      label: "kkFileView Version / kkFileView 版本"
+      label: "4kfileview Version / 4kfileview 版本"
       placeholder: "e.g. 4.4.0"
     validations:
       required: true

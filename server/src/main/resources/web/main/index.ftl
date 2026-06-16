@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>kkFileView 演示页</title>
+    <title>4kfileview 演示页</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,7 +68,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="./index">kkFileView</a>
+            <a class="navbar-brand" href="./index">4kfileview</a>
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="./index">首页</a></li>
@@ -90,7 +90,7 @@
                     <span class="eyebrow">Preview Engine / Demo Portal</span>
                 <h1 class="hero-title">开源的万能文件预览系统</h1>
                     <p class="hero-subtitle">
-                        kkFileView 提供统一的文件预览入口，覆盖 5 大文件族群、70+ 常见文件类型，支持文件链接预览、上传文件预览，以及业务系统里的常见接入方式。
+                        4kfileview 提供统一的文件预览入口，覆盖 5 大文件族群、70+ 常见文件类型，支持文件链接预览、上传文件预览，以及业务系统里的常见接入方式。
                     </p>
                     <div class="hero-actions">
                         <a class="hero-link primary" href="#demo-lab">开始体验</a>

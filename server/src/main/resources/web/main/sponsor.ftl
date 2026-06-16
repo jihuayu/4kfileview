@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>kkFileView 赞助开源</title>
+    <title>4kfileview 赞助开源</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="./index">kkFileView</a>
+            <a class="navbar-brand" href="./index">4kfileview</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="./index">首页</a></li>
@@ -38,7 +38,7 @@
                 <span class="eyebrow">Sponsor Open Source</span>
                 <h1 class="hero-title">赞助开源</h1>
                 <p class="hero-subtitle">
-                    kkFileView 已持续维护多年，被广泛用于金融、教育、银行、政务和企业内部系统。
+                    4kfileview 已持续维护多年，被广泛用于金融、教育、银行、政务和企业内部系统。
                     赞助会直接用于文档站、演示站、服务器和 CDN 等基础开销。
                 </p>
                 <div class="summary-grid">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="note-row">
-                    <span class="tag brand"><a target="_blank" href="https://github.com/jihuayu/kkFileView">GitHub</a></span>
+                    <span class="tag brand"><a target="_blank" href="https://github.com/jihuayu/4kfileview">GitHub</a></span>
                     <span class="tag highlight">完全开源</span>
                 </div>
             </div>
@@ -70,9 +70,9 @@
                         <h3>赞助方式</h3>
                     </div>
                 </div>
-                <p>如果你觉得 kkFileView 对你有帮助，可以通过下面的方式赞助项目，支持它继续长期维护。</p>
+                <p>如果你觉得 4kfileview 对你有帮助，可以通过下面的方式赞助项目，支持它继续长期维护。</p>
                 <ul>
-                    <li>kkFileView 开源至今已多年，社区持续反馈并推动演进。</li>
+                    <li>4kfileview 开源至今已多年，社区持续反馈并推动演进。</li>
                     <li>项目 star 与使用规模已经证明它不是“玩具 demo”，而是被真实系统接入的基础能力。</li>
                     <li>赞助记录为手动录入，存在周级延迟；如有遗漏，可联系作者补录。</li>
                 </ul>

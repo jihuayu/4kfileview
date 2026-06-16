@@ -73,8 +73,8 @@
 				//poster:'ckplayer/poster.png',//封面图片
 				menu:[
 			{
-				title:'kkFileView',
-				link:'https://github.com/jihuayu/kkFileView',
+				title:'4kfileview',
+				link:'https://github.com/jihuayu/4kfileview',
 				underline:true
 			},
 			{

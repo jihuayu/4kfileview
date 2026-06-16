@@ -12,7 +12,7 @@ EXPECTED_SHA256="$3"
 VENDOR_DIR="$4"
 APP_DIR="$VENDOR_DIR/LibreOfficePortable"
 APP_INFO="$APP_DIR/App/AppInfo/appinfo.ini"
-CACHE_DIR="${KKFILEVIEW_VENDOR_CACHE:-$HOME/.cache/kkfileview/vendor}"
+CACHE_DIR="${FOURKFILEVIEW_VENDOR_CACHE:-${KKFILEVIEW_VENDOR_CACHE:-$HOME/.cache/4kfileview/vendor}}"
 ARCHIVE_PATH="$CACHE_DIR/$ARCHIVE_NAME"
 
 find_7z() {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>kkFileView 技术支持</title>
+    <title>4kfileview 技术支持</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="./index">kkFileView</a>
+            <a class="navbar-brand" href="./index">4kfileview</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="./index">首页</a></li>
@@ -40,7 +40,7 @@
                     <span class="eyebrow">Contact Us</span>
                 <h1 class="hero-title">技术支持</h1>
                     <p class="hero-subtitle">
-                        如果你在部署、安装、接入或日常使用 kkFileView 时需要更直接的支持，
+                        如果你在部署、安装、接入或日常使用 4kfileview 时需要更直接的支持，
                         可以加入我们的付费知识星球，获取安装使用技术支持。
                     </p>
                     <div class="hero-actions">

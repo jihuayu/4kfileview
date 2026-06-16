@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>kkFileView 接入说明</title>
+    <title>4kfileview 接入说明</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
 <nav class="site-nav navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="./index">kkFileView</a>
+            <a class="navbar-brand" href="./index">4kfileview</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="./index">首页</a></li>
@@ -37,7 +37,7 @@
         <section class="hero-section release-hero">
             <div class="hero-copy">
                 <span class="eyebrow">Integration Guide</span>
-                <h1 class="hero-title">5 分钟把 kkFileView 接进你的业务项目。</h1>
+                <h1 class="hero-title">5 分钟把 4kfileview 接进你的业务项目。</h1>
                 <p class="hero-subtitle hero-subtitle-inline">
                     这里按常见接入场景提供示例，方便你直接按需选用。默认假设服务地址为 <span class="text-highlight">${baseUrl}</span>。
                 </p>
@@ -157,7 +157,7 @@ window.open('${baseUrl}onlinePreview?url=' + encodeURIComponent(Base64.encode(pr
                         </div>
                         <button class="copy-btn" type="button" onclick="copyCode(this)">复制代码</button>
                     </div>
-                    <p>如果文件源本身需要用户名和密码，可以直接把 Basic 鉴权参数拼到地址中，再交给 kkFileView。</p>
+                    <p>如果文件源本身需要用户名和密码，可以直接把 Basic 鉴权参数拼到地址中，再交给 4kfileview。</p>
                     <div class="code-block">
                         <code class="language-javascript">var originUrl = 'http://127.0.0.1/file/test.txt';
 var previewUrl = originUrl + '?basic.name=admin&amp;basic.pass=123456';
@@ -209,7 +209,7 @@ window.open('${baseUrl}onlinePreview?url=' + encodeURIComponent(aesEncrypt(url, 
                         <li>`highlightall`：关键字高亮。</li>
                         <li>`watermarkTxt`：动态水印文本。</li>
                         <li>`forceUpdatedCache=true`：强制刷新缓存。</li>
-                        <li>`kkagent=true`：需要 kkFileView 代理跨域时启用。</li>
+                        <li>`kkagent=true`：需要 4kfileview 代理跨域时启用。</li>
                         <li>`usePasswordCache=true`：开启密码缓存。</li>
                         <li>`key`：实例启用秘钥后传入访问秘钥。</li>
                     </ul>
@@ -220,8 +220,8 @@ window.open(
   encodeURIComponent(base64Encode(url)) +
   '&amp;filePassword=123' +
   '&amp;page=1' +
-  '&amp;highlightall=kkfileview' +
-  '&amp;watermarkTxt=kkfileview' +
+  '&amp;highlightall=4kfileview' +
+  '&amp;watermarkTxt=4kfileview' +
   '&amp;kkagent=false' +
   '&amp;key=123'
 );</code>

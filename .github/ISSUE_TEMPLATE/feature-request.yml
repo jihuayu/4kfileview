@@ -29,7 +29,7 @@ body:
     id: proposal
     attributes:
       label: "Proposal / 建议方案"
-      description: "What do you expect kkFileView to support? / 期望 kkFileView 支持什么？"
+      description: "What do you expect 4kfileview to support? / 期望 4kfileview 支持什么？"
       placeholder: "Describe expected feature behavior... / 描述期望功能行为..."
     validations:
       required: true

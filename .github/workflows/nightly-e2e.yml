@@ -46,7 +46,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r tests/e2e/requirements.txt
 
-      - name: Build kkFileView
+      - name: Build 4kfileview
         run: mvn -q -pl server -DskipTests -Dassembly.skipAssembly=true -Dlibreoffice.portable.skip=true package
 
       - name: Install E2E deps
@@ -60,10 +60,10 @@ jobs:
           cd tests/e2e/fixtures
           python3 -m http.server 18080 > /tmp/fixture-server.log 2>&1 &
 
-      - name: Start kkFileView
+      - name: Start 4kfileview
         run: |
-          JAR_PATH=$(ls server/target/kkFileView-*.jar | head -n 1)
-          nohup env KK_TRUST_HOST='*' KK_NOT_TRUST_HOST='10.*,172.16.*,192.168.*' java -jar "$JAR_PATH" > /tmp/kkfileview.log 2>&1 &
+          JAR_PATH=$(ls server/target/4kfileview-*.jar | head -n 1)
+          nohup env KK_TRUST_HOST='*' KK_NOT_TRUST_HOST='10.*,172.16.*,192.168.*' java -jar "$JAR_PATH" > /tmp/4kfileview.log 2>&1 &
 
       - name: Wait for services
         run: |
@@ -80,16 +80,16 @@ jobs:
             exit 1
           fi
 
-          kkfileview_ready=false
+          fourkfileview_ready=false
           for i in {1..120}; do
             if curl -fsS http://127.0.0.1:8012/ >/dev/null; then
-              kkfileview_ready=true
+              fourkfileview_ready=true
               break
             fi
             sleep 1
           done
-          if [ "$kkfileview_ready" != "true" ]; then
-            echo "Error: kkFileView service did not become ready within 120 seconds." >&2
+          if [ "$fourkfileview_ready" != "true" ]; then
+            echo "Error: 4kfileview service did not become ready within 120 seconds." >&2
             exit 1
           fi
 
@@ -114,5 +114,5 @@ jobs:
         with:
           name: nightly-e2e-service-logs
           path: |
-            /tmp/kkfileview.log
+            /tmp/4kfileview.log
             /tmp/fixture-server.log

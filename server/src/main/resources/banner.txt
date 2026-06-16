@@ -8,5 +8,5 @@
 
  => Java Version            ::  ${java.version}
  => Spring Boot             ::  ${spring-boot.version}
- => kkFileView              ::  26.2.0
- => Repository              ::  https://github.com/jihuayu/kkFileView
+ => 4kfileview              ::  26.2.0
+ => Repository              ::  https://github.com/jihuayu/4kfileview

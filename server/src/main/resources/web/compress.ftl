@@ -663,7 +663,7 @@
             <div class="panel-header">
                 <div>
                     <div class="preview-title-row">
-                        <h2 class="panel-title">kkFileView</h2>
+                        <h2 class="panel-title">4kfileview</h2>
                         <p id="previewFile" class="preview-file">未选择文件</p>
                     </div>
                 </div>

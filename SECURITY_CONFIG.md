@@ -1,8 +1,8 @@
-# kkFileView 安全配置指南
+# 4kfileview 安全配置指南
 
 ## ⚠️ 重要安全更新
 
-从 4.4.0 之后版本开始，kkFileView 增强了安全性，默认拒绝所有未配置的外部文件预览请求，以防止 SSRF（服务器端请求伪造）攻击。
+从 4.4.0 之后版本开始，4kfileview 增强了安全性，默认拒绝所有未配置的外部文件预览请求，以防止 SSRF（服务器端请求伪造）攻击。
 
 ## 🔒 安全配置说明
 
@@ -53,7 +53,7 @@ docker run -d \
   -e KK_TRUST_HOST=yourdomain.com,cdn.example.com \
   -e KK_NOT_TRUST_HOST=localhost,127.0.0.1 \
   -p 8012:8012 \
-  ghcr.io/jihuayu/kkfileview:v26.2.0
+  ghcr.io/jihuayu/4kfileview:v26.2.0
 ```
 
 ## 🛡️ 安全最佳实践
@@ -166,7 +166,7 @@ trust.host = *.example.com
 
 ## 📞 获取帮助
 
-- GitHub Issues: https://github.com/jihuayu/kkFileView/issues
+- GitHub Issues: https://github.com/jihuayu/4kfileview/issues
 
 ---
 

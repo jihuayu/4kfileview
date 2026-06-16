@@ -5,17 +5,17 @@
 # Author:  sanxi
 # Version: 1.0
 # Date:    2021/09/17
-# Description: v1.0：修改kkFileView关闭进程机制  
+# Description: v1.0：修改4kfileview关闭进程机制
 #############################
 #
-KKFILEVIEW_BIN_FOLDER=$(cd "$(dirname "$0")" || exit 1 ;pwd)
-PID_FILE_NAME="kkFileView.pid"
-PID_FILE="${KKFILEVIEW_BIN_FOLDER}/${PID_FILE_NAME}"
-export KKFILEVIEW_BIN_FOLDER=$KKFILEVIEW_BIN_FOLDER
+FOURKFILEVIEW_BIN_FOLDER=$(cd "$(dirname "$0")" || exit 1 ;pwd)
+PID_FILE_NAME="4kfileview.pid"
+PID_FILE="${FOURKFILEVIEW_BIN_FOLDER}/${PID_FILE_NAME}"
+export FOURKFILEVIEW_BIN_FOLDER=$FOURKFILEVIEW_BIN_FOLDER
 #
 ## pid文件是否存在
 if [ ! -e "$PID_FILE" ]; then
-    echo "kkFileView.pid文件不存在！"
+    echo "4kfileview.pid文件不存在！"
     exit 1
 else
     ## 文件不为空代表程序正在运行，则循环关闭进程。
@@ -31,6 +31,6 @@ else
         # 关闭所有进程后，重置pid。
         cat /dev/null > "$PID_FILE"
     else
-        echo "kkFileView进程尚未运行！"
+        echo "4kfileview进程尚未运行！"
     fi
 fi

@@ -1,4 +1,13 @@
-# kkFileView
+# 4kfileview
+
+### Credit And Fork Rationale
+
+4kfileview is forked from [kkFileView](https://github.com/kekingcn/kkFileView). The original project has been maintained by the kkFileView community for years and is available under the Apache License 2.0. Thanks to the original authors and contributors for building the document preview foundation this fork is based on.
+
+This fork is maintained independently for two practical reasons:
+
+1. The upstream project has been slow to respond to some security vulnerabilities and bugs, so this fork prioritizes security fixes, reproducible issues, and production deployment feedback.
+2. The upstream project does not provide prebuilt ARM Docker images, so this fork will continuously publish Docker images that work on amd64 and arm64.
 
 ### Introduction
 
@@ -37,7 +46,7 @@ Document online preview project solution, built using the popular Spring Boot fr
 
 ### Repository
 
-URL：[https://github.com/jihuayu/kkFileView](https://github.com/jihuayu/kkFileView)
+URL：[https://github.com/jihuayu/4kfileview](https://github.com/jihuayu/4kfileview)
 
 ### Local demo
 
@@ -45,7 +54,7 @@ URL：`http://127.0.0.1:8012/`
 
 ### Issues
 
-URL：[https://github.com/jihuayu/kkFileView/issues](https://github.com/jihuayu/kkFileView/issues)
+URL：[https://github.com/jihuayu/4kfileview/issues](https://github.com/jihuayu/4kfileview/issues)
 
 ### Quick Start
 > Technology stack
@@ -57,7 +66,7 @@ URL：[https://github.com/jihuayu/kkFileView/issues](https://github.com/jihuayu/
 - Redis(Optional, Unnecessary by default)
 - OpenOffice or LibreOffice(Integrated on Windows, will be installed automatically on Linux, need to be manually installed on Mac OS)
 
-1. First step：`git clone https://github.com/jihuayu/kkFileView.git`
+1. First step：`git clone https://github.com/jihuayu/4kfileview.git`
 
 2. second step：Run the main method of `/server/src/main/java/cn/keking/ServerMain.java`. After starting,visit `http://localhost:8012/`.
 
@@ -66,7 +75,7 @@ URL：[https://github.com/jihuayu/kkFileView/issues](https://github.com/jihuayu/
 ### Version 26.2.0 (June 15, 2026)
 
 #### Improvements
-1. Updated project metadata, repository links, issue/security reporting links, and startup help text to point at the maintained `jihuayu/kkFileView` repository.
+1. Updated project metadata, repository links, issue/security reporting links, and startup help text to point at the maintained `jihuayu/4kfileview` repository.
 2. Updated the demo portal navigation and release timeline for the 26.2.0 release line.
 3. Updated Docker base-image examples and security configuration examples to use the v26.2.0 image tag.
 

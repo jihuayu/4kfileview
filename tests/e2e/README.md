@@ -1,4 +1,4 @@
-# kkFileView E2E MVP
+# 4kfileview E2E MVP
 
 This folder contains a first MVP of end-to-end automated tests.
 
@@ -36,15 +36,15 @@ pip3 install -r requirements.txt
 3. Generate fixtures and start fixture server:
 
 ```bash
-cd /path/to/kkFileView
+cd /path/to/4kfileview
 npm run gen:all
 cd tests/e2e/fixtures && python3 -m http.server 18080
 ```
 
-4. Start kkFileView in another terminal:
+4. Start 4kfileview in another terminal:
 
 ```bash
-JAR_PATH=$(ls server/target/kkFileView-*.jar | head -n 1)
+JAR_PATH=$(ls server/target/4kfileview-*.jar | head -n 1)
 KK_TRUST_HOST='*' KK_NOT_TRUST_HOST='10.*,172.16.*,192.168.*' java -jar "$JAR_PATH"
 ```
 

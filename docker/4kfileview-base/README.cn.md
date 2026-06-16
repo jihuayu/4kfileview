@@ -1,16 +1,16 @@
 # 构建说明
 
-由于 kkfileview 的基础运行环境很少变动且制作耗时较久，而 kkfileview 本身代码开发会频繁改动，因此把制作其 Docker 镜像的步骤拆分为两次：
+由于 4kfileview 的基础运行环境很少变动且制作耗时较久，而 4kfileview 本身代码开发会频繁改动，因此把制作其 Docker 镜像的步骤拆分为两次：
 
-首先制作 kkfileview 的基础镜像（kkfileview-base）。
+首先制作 4kfileview 的基础镜像（4kfileview-base）。
 
-然后使用 kkfileview-base 作为基础镜像进行构建，加快 kkfileview docker 镜像构建与发布。
+然后使用 4kfileview-base 作为基础镜像进行构建，加快 4kfileview docker 镜像构建与发布。
 
 执行如下命令即可构建基础镜像：
 > 这里镜像 tag 以 v26.2.0 为例，本项目所维护的 Dockerfile 文件考虑了跨平台兼容性。 如果你需要用到 arm64 架构镜像, 则在arm64 架构机器上同样执行下面的构建命令即可
 
 ```shell
-docker build --tag jihuayu123/kkfileview-base:v26.2.0 .
+docker build --tag jihuayu123/4kfileview-base:v26.2.0 .
 ```
 
 
@@ -46,5 +46,5 @@ docker build --tag jihuayu123/kkfileview-base:v26.2.0 .
 现在就可以愉快地开始构建了，构建命令示例:
 
 ```shell
-docker buildx build --platform=linux/amd64,linux/arm64 -t jihuayu123/kkfileview-base:v26.2.0 --push .
+docker buildx build --platform=linux/amd64,linux/arm64 -t jihuayu123/4kfileview-base:v26.2.0 --push .
 ```
