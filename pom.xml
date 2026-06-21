@@ -35,10 +35,10 @@
         <commons-imaging.version>1.0.0-alpha6</commons-imaging.version>
 
         <!-- ========== 视频处理 (JavaCV) ========== -->
-        <bytedeco.version>1.5.12</bytedeco.version>
-        <opencv.version>4.11.0-1.5.12</opencv.version>
-        <openblas.version>0.3.30-1.5.12</openblas.version>
-        <ffmpeg.version>7.1.1-1.5.12</ffmpeg.version>
+        <bytedeco.version>1.5.13</bytedeco.version>
+        <opencv.version>4.13.0-1.5.13</opencv.version>
+        <openblas.version>0.3.31-1.5.13</openblas.version>
+        <ffmpeg.version>8.0.1-1.5.13</ffmpeg.version>
 
         <!-- ========== 压缩文件处理 ========== -->
         <sevenzipjbinding.version>16.02-2.01</sevenzipjbinding.version>
@@ -46,7 +46,7 @@
 
         <!-- ========== 缓存和存储 ========== -->
         <redisson.version>4.0.0</redisson.version>
-        <rocksdb.version>5.17.2</rocksdb.version>
+        <rocksdb.version>10.10.1.1</rocksdb.version>
         <concurrentlinkedhashmap.version>1.4.2</concurrentlinkedhashmap.version>
 
         <!-- ========== 网络通信 ========== -->
