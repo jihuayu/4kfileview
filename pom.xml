@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- ========== Spring 框架 ========== -->
-        <spring.boot.version>3.5.6</spring.boot.version>
+        <spring.boot.version>4.1.0</spring.boot.version>
 
         <!-- ========== 文档转换和Office处理 ========== -->
         <jodconverter.version>4.4.11</jodconverter.version>
