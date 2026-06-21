@@ -22,16 +22,16 @@
 
         <!-- ========== 文档转换和Office处理 ========== -->
         <jodconverter.version>4.4.11</jodconverter.version>
-        <poi.version>5.2.5</poi.version>
+        <poi.version>5.5.1</poi.version>
         <xdocreport.version>1.0.6</xdocreport.version>
         <aspose-cad.version>25.10</aspose-cad.version>
 
         <!-- ========== PDF 处理 ========== -->
-        <pdfbox.version>3.0.6</pdfbox.version>
+        <pdfbox.version>3.0.7</pdfbox.version>
 
         <!-- ========== 图像处理 ========== -->
         <jai-imageio.version>1.4.0</jai-imageio.version>
-        <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
+        <jbig2-imageio.version>3.0.5</jbig2-imageio.version>
         <commons-imaging.version>1.0.0-alpha6</commons-imaging.version>
 
         <!-- ========== 视频处理 (JavaCV) ========== -->
