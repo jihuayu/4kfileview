@@ -45,7 +45,7 @@
         <junrar.version>7.5.5</junrar.version>
 
         <!-- ========== 缓存和存储 ========== -->
-        <redisson.version>4.0.0</redisson.version>
+        <redisson.version>4.6.1</redisson.version>
         <rocksdb.version>5.17.2</rocksdb.version>
         <concurrentlinkedhashmap.version>1.4.2</concurrentlinkedhashmap.version>
 
